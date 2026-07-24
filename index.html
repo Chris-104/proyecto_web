@@ -1,11 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Focus Class - Tu periodo bajo control</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Archivo de estilos CSS -->
+    <link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
-    <!--hola solo para tener el index despues nos organizamos como repartir todo-->
+
+    <!-- Menú Desplegable Lateral (Sidebar Overlay) -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" id="closeSidebarBtn" aria-label="Cerrar menú">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Lenguaje</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>Matematica</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span>Ciencia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>Sociales</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa-solid fa-language"></i>
+                        <span>Ingles</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Overlay oscuro al abrir el menú -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Barra de Navegación Superior (Header) -->
+    <header class="navbar">
+        <div class="nav-left">
+            <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú">
+                <i class="fa-solid fa-list-ul"></i>
+            </button>
+        </div>
+
+        <div class="nav-center">
+            <a href="#" class="logo-container">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="brand-title">FOCUS</span>
+                    <span class="brand-sub">CLASS</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <button class="icon-btn" aria-label="Notificaciones">
+                <i class="fa-regular fa-bell"></i>
+            </button>
+            <div class="user-menu">
+                <div class="user-avatar-small">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                <span class="user-name">Usuario</span>
+                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="main-container">
+        <div class="dashboard-grid">
+            
+            <!-- Columna Izquierda: Información de Funcionalidades -->
+            <section class="info-section">
+                <h1 class="main-title">
+                    Tu periodo <br>
+                    <span class="highlight-blue">bajo control</span>
+                </h1>
+                <p class="main-subtitle">
+                    Organiza tus materias, tareas y exámenes en un solo lugar, sin estrés.
+                </p>
+
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Organiza tus tareas</h3>
+                            <p>Crea y administra tus tareas por materia y fecha.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fa-regular fa-calendar-check"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>No olvides nada</h3>
+                            <p>Recibe recordatorios y mantén el control de tus pendientes.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Mejora tu rendimiento</h3>
+                            <p>Planifica tu tiempo y alcanza tus metas académicas.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Columna Central: Banner e Ilustración + Pasos -->
+            <section class="banner-section">
+                <!-- Imagen / Ilustración Central -->
+                <div class="banner-card">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" alt="Estudiantes estudiando felizmente" class="hero-img">
+                </div>
+
+                <!-- Banner Azul Informativo -->
+                <div class="quote-banner">
+                    <div class="quote-icon">
+                        <i class="fa-solid fa-chart-area"></i>
+                    </div>
+                    <span class="quote-text">La planificacion es el primer paso al futuro</span>
+                </div>
+
+                <!-- Puntos de Navegación/Carrusel -->
+                <div class="carousel-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+
+                <!-- Tarjeta Inferior de 3 Pasos -->
+                <div class="steps-card">
+                    <div class="step-item">
+                        <div class="step-badge">1</div>
+                        <div class="step-icon-box">
+                            <i class="fa-solid fa-cube"></i>
+                            <span class="plus-badge">+</span>
+                        </div>
+                        <h4>Crea tus materias</h4>
+                        <p>Agrega las materias que llevas este período.</p>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-badge">2</div>
+                        <div class="step-icon-box">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <h4>Agrega tus tareas</h4>
+                        <p>Registra tus tareas con fecha de entrega y prioridad.</p>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-badge">3</div>
+                        <div class="step-icon-box">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="notification-badge">!</span>
+                        </div>
+                        <h4>Recibe recordatorios</h4>
+                        <p>Te notificamos para que nunca se te pase una fecha importante.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Columna Derecha: Tarjeta de Iniciar Sesión -->
+            <section class="login-section">
+                <div class="login-card">
+                    <div class="login-avatar-circle">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+
+                    <form class="login-form" onsubmit="event.preventDefault();">
+                        <div class="input-group">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" placeholder="Nombre de usuario" required>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" placeholder="Contraseña" required>
+                        </div>
+
+                        <!-- Simulación Captcha reCAPTCHA -->
+                        <div class="recaptcha-box">
+                            <label class="recaptcha-checkbox">
+                                <input type="checkbox">
+                                <span class="checkmark"></span>
+                                <span class="recaptcha-text">No soy un robot</span>
+                            </label>
+                            <div class="recaptcha-logo">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>reCAPTCHA</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-primary">Entrar</button>
+
+                        <div class="divider">
+                            <span>o continúa con</span>
+                        </div>
+
+                        <div class="social-login">
+                            <button type="button" class="social-btn" title="Google">
+                                <i class="fa-brands fa-google" style="color: #ea4335;"></i>
+                            </button>
+                            <button type="button" class="social-btn" title="Microsoft">
+                                <i class="fa-brands fa-microsoft" style="color: #00a4ef;"></i>
+                            </button>
+                            <button type="button" class="social-btn" title="Apple">
+                                <i class="fa-brands fa-apple" style="color: #000000;"></i>
+                            </button>
+                        </div>
+
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Pie de Página (Footer) -->
+    <footer class="footer">
+        <div class="footer-container">
+            
+            <!-- Columna 1: Marca y descripción -->
+            <div class="footer-col brand-col">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div>
+                        <h3 class="footer-brand-title">Focus class</h3>
+                        <p class="footer-brand-sub">Aprende sin límites</p>
+                    </div>
+                </div>
+                <p class="footer-description">
+                    Plataforma educativa diseñada para impulsar el aprendizaje
+                </p>
+                <div class="social-icons-row">
+                    <a href="#" class="social-icon tiktok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="social-icon instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-icon facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <!-- Columna 2: Plataforma -->
+            <div class="footer-col">
+                <h4>Plataforma</h4>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Mis clases</a></li>
+                    <li><a href="#">Tareas</a></li>
+                    <li><a href="#">Calendario</a></li>
+                    <li><a href="#">Progreso</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Ayuda -->
+            <div class="footer-col">
+                <h4>Ayuda</h4>
+                <ul>
+                    <li><a href="#">Acerca de nosotros</a></li>
+                    <li><a href="#">Centro de ayuda</a></li>
+                    <li><a href="#">Preguntas frecuentes</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Contacto -->
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li>El Salvador</li>
+                    <li>+503 6871 0234</li>
+                    <li>contacto@focusclass.hot</li>
+                </ul>
+            </div>
+
+            <!-- Columna 5: Otros proyectos -->
+            <div class="footer-col">
+                <h4>Otros proyectos</h4>
+                <ul>
+                    <li><a href="#">Modelo de IA</a></li>
+                    <li><a href="#">Tienda de videojuegos</a></li>
+                    <li><a href="#">App de citas</a></li>
+                    <li><a href="#">Tienda de comida</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript para abrir y cerrar el menú desplegable lateral -->
+    <script>
+        const openSidebarBtn = document.getElementById('openSidebarBtn');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+        function openSidebar() {
+            sidebar.classList.add('active');
+            sidebarBackdrop.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+            sidebarBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        openSidebarBtn.addEventListener('click', openSidebar);
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        sidebarBackdrop.addEventListener('click', closeSidebar);
+    </script>
 </body>
 </html>
