@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <!-- Archivo de estilos CSS -->
     <link rel="stylesheet" href="/css/estilo.css">
+    <script src="/javascript/script.js" defer></script>
 </head>
 <body>
 
@@ -67,35 +68,17 @@
 
     <!-- Barra de Navegación Superior (Header) -->
     <header class="navbar">
-        <div class="nav-left">
-            <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú">
-                <i class="fa-solid fa-list-ul"></i>
-            </button>
-        </div>
+       
 
-        <div class="nav-center">
-            <a href="#" class="logo-container">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-eye"></i>
-                </div>
-                <div class="logo-text">
-                    <span class="brand-title">FOCUS</span>
-                    <span class="brand-sub">CLASS</span>
-                </div>
-            </a>
-        </div>
+        <div class="contenedor-imagen">
 
+            <img src="/assets/img/logo.png" alt="Logo de focus class" class="logo">
+        </div>
+        
         <div class="nav-right">
             <button class="icon-btn" aria-label="Notificaciones">
                 <i class="fa-regular fa-bell"></i>
             </button>
-            <div class="user-menu">
-                <div class="user-avatar-small">
-                    <i class="fa-regular fa-user"></i>
-                </div>
-                <span class="user-name">Usuario</span>
-                <i class="fa-solid fa-chevron-down arrow-icon"></i>
-            </div>
         </div>
     </header>
 
@@ -148,25 +131,55 @@
 
             <!-- Columna Central: Banner e Ilustración + Pasos -->
             <section class="banner-section">
-                <!-- Imagen / Ilustración Central -->
-                <div class="banner-card">
-                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" alt="Estudiantes estudiando felizmente" class="hero-img">
-                </div>
-
-                <!-- Banner Azul Informativo -->
-                <div class="quote-banner">
-                    <div class="quote-icon">
-                        <i class="fa-solid fa-chart-area"></i>
+                <!-- INICIO CAMBIO CARRUSEL: Estructura de diapositivas con imágenes y frases agrupadas -->
+                <div class="carousel-container">
+                    <!-- Diapositiva 1 -->
+                    <div class="carousel-slide active">
+                        <div class="banner-card">
+                            <img src="/assets/img/imagen-de-inicio1.jpg" alt="Estudiantes estudiando felizmente" class="hero-img">
+                        </div>
+                        <div class="quote-banner">
+                            <div class="quote-icon">
+                                <i class="fa-solid fa-chart-area"></i>
+                            </div>
+                            <span class="quote-text">La planificación es el primer paso al futuro</span>
+                        </div>
                     </div>
-                    <span class="quote-text">La planificacion es el primer paso al futuro</span>
+
+                    <!-- Diapositiva 2 -->
+                    <div class="carousel-slide">
+                        <div class="banner-card">
+                            <img src="/assets/img/imagen-de-inicio2.jpg" alt="Estudiante organizando sus apuntes" class="hero-img">
+                        </div>
+                        <div class="quote-banner">
+                            <div class="quote-icon">
+                                <i class="fa-solid fa-lightbulb"></i>
+                            </div>
+                            <span class="quote-text">Organiza tu tiempo y alcanza tus metas</span>
+                        </div>
+                    </div>
+
+                    <!-- Diapositiva 3 -->
+                    <div class="carousel-slide">
+                        <div class="banner-card">
+                            <img src="/assets/img/imagen-de-inicio3.webp" alt="Grupo de estudiantes colaborando" class="hero-img">
+                        </div>
+                        <div class="quote-banner">
+                            <div class="quote-icon">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <span class="quote-text">Aprende hoy, lidera el mañana</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Puntos de Navegación/Carrusel -->
+                <!-- Puntos de Navegación/Carrusel con atributos data-slide -->
                 <div class="carousel-dots">
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span>
                 </div>
+                <!-- FIN CAMBIO CARRUSEL -->
 
                 <!-- Tarjeta Inferior de 3 Pasos -->
                 <div class="steps-card">
@@ -277,8 +290,8 @@
                     Plataforma educativa diseñada para impulsar el aprendizaje
                 </p>
                 <div class="social-icons-row">
-                    <a href="#" class="social-icon tiktok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" class="social-icon instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="social-icon tiktok" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" target="_blank" class="social-icon instagram" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" class="social-icon facebook" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="social-icon whatsapp" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
@@ -331,28 +344,8 @@
         </div>
     </footer>
 
-    <!-- Lógica JavaScript para abrir y cerrar el menú desplegable lateral -->
-    <script>
-        const openSidebarBtn = document.getElementById('openSidebarBtn');
-        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-
-        function openSidebar() {
-            sidebar.classList.add('active');
-            sidebarBackdrop.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSidebar() {
-            sidebar.classList.remove('active');
-            sidebarBackdrop.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        openSidebarBtn.addEventListener('click', openSidebar);
-        closeSidebarBtn.addEventListener('click', closeSidebar);
-        sidebarBackdrop.addEventListener('click', closeSidebar);
-    </script>
+    <!-- INICIO CAMBIO SCRIPT: Vinculación del archivo JavaScript externo -->
+    <script src="javascript/script.js"></script>
+    <!-- FIN CAMBIO SCRIPT -->
 </body>
 </html>
