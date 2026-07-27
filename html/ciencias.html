@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/materias.css">
+    <title>Focus Class - Ciencias</title>
+</head>
+<body>
+     <header class="navbar">
+  <div class="nav-left">
+    <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    
+    <div class="logo">
+      <div class="logo">
+  <img src="../assets/img/logo.png" alt="Logo de Focus Class" style="height: 74px; width: auto; object-fit: contain;">
+</div>
+    </div>
+    </div>
+  <div class="nav-right">
+    <button class="icon-btn" aria-label="Notificaciones"><i class="fa-regular fa-bell"></i></button>
+    <div class="user-profile">
+      <i class="fa-regular fa-user-circle avatar"></i>
+      <span>Usuario</span>
+      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
+    </div>
+  </div>
+</header>
+<main class="main-container">
+    <div class="dashboard-grid">
+
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="icon-green">📌</span>
+            <h2>Tareas pendientes</h2>
+          </div>
+          <span class="badge">3 pendientes</span>
+        </div>
+
+        <div class="card-list">
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-file">📄</span>
+              <div class="card-info">
+                <h3>Informe de Laboratorio: Célula Eucariota y Procariota</h3>
+                <p>Biología Celular</p>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 18/03/2026</span>
+                <small>Fecha de entrega</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-file">📄</span>
+              <div class="card-info">
+                <h3>Tabla Periódica: Clasificación de Elementos y Metales</h3>
+                <p>Química General</p>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 22/03/2026</span>
+                <small>Fecha de entrega</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-file">📄</span>
+              <div class="card-info">
+                <h3>Ejercicios de Leyes de Newton y Movimiento Rectilíneo</h3>
+                <p>Física</p>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 26/03/2026</span>
+                <small>Fecha de entrega</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-add">+ Agregar nueva tarea</button>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="icon-green">📋</span>
+            <h2>Exámenes por realizar</h2>
+          </div>
+          <span class="badge">2 próximos</span>
+        </div>
+
+        <div class="card-list">
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-brain">🧠</span>
+              <div class="card-info">
+                <h3>Examen Corto - Fotosíntesis y Respiración Celular</h3>
+                <p class="topics-heading">Temas por estudiar:</p>
+                <ul class="topics-list">
+                  <li>Fase luminosa y oscura de la fotosíntesis</li>
+                  <li>Estructura del cloroplasto y la mitocondria</li>
+                  <li>Importancia del ciclo del carbono</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 20/03/2026</span>
+                <small>Fecha de realización</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-brain">🧠</span>
+              <div class="card-info">
+                <h3>Examen Parcial - Ecología y Cadenas Tróficas</h3>
+                <p class="topics-heading">Temas por estudiar:</p>
+                <ul class="topics-list">
+                  <li>Niveles tróficos (Productores, Consumidores, Descomponedores)</li>
+                  <li>Flujo de energía en los ecosistemas</li>
+                  <li>Impacto ambiental y conservación de recursos</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 27/03/2026</span>
+                <small>Fecha de realización</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-add">+ Agregar nuevo examen</button>
+      </section>
+
+    </div>
+  </main>
+<footer class="footer">
+    <div class="footer-container">
+      
+      <div class="footer-col brand-col">
+        <div class="footer-logo">
+          <i class="fa-solid fa-eye footer-logo-icon"></i>
+          <div>
+            <h3 class="footer-brand-title">Focus class</h3>
+            <p class="footer-brand-sub">Aprende sin límites</p>
+          </div>
+        </div>
+        <p class="footer-description">
+          Plataforma educativa diseñada para impulsar el aprendizaje
+        </p>
+        <div class="social-icons-row">
+          <a href="#" class="social-icon" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Plataforma</h4>
+        <ul>
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Mis clases</a></li>
+          <li><a href="#">Tareas</a></li>
+          <li><a href="#">Calendario</a></li>
+          <li><a href="#">Progreso</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Ayuda</h4>
+        <ul>
+          <li><a href="#">Acerca de nosotros</a></li>
+          <li><a href="#">Centro de ayuda</a></li>
+          <li><a href="#">Preguntas frecuentes</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li>El Salvador</li>
+          <li>+503 6871 0234</li>
+          <li>contacto@focusclass.hot</li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Otros proyectos</h4>
+        <ul>
+          <li><a href="#">Modelo de IA</a></li>
+          <li><a href="#">Tienda de videojuegos</a></li>
+          <li><a href="#">App de citas</a></li>
+          <li><a href="#">Tienda de comida</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+</body>
+</html>
