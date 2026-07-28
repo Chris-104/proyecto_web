@@ -94,37 +94,74 @@ body {
   margin: 24px auto;
   padding: 0 20px;
 }
-
 .banner {
-  background-color: #ffd600; /* Fondo amarillo */
   border-radius: 16px;
   padding: 24px 32px;
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-top: 24px !important;   
+  margin-bottom: 24px !important; 
 }
 
 .banner-icon {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.2);
   padding: 12px;
   border-radius: 12px;
-  font-size: 24px;
+  font-size: 26px;
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .banner-text h1 {
   font-size: 28px;
-  font-weight: 700;
-  color: var(--text-dark);
+  font-weight: 800;
   margin-bottom: 2px;
 }
 
 .banner-text p {
   font-size: 13px;
-  color: #475569;
 }
 
+/* ==========================================================================
+   COLORES ESPECÍFICOS POR MATERIA
+   ========================================================================== */
+
+/* 1. Matemática (Amarillo) */
+.banner-matematica {
+  background-color: #ffd600 !important;
+}
+.banner-matematica .banner-text h1 { color: #1e293b !important; }
+.banner-matematica .banner-text p { color: #475569 !important; }
+
+/* 2. Ciencias Naturales (Verde Oscuro) */
+.banner-ciencias {
+  background-color: #166534 !important;
+}
+.banner-ciencias .banner-text h1,
+.banner-ciencias .banner-text p { color: #ffffff !important; }
+
+/* 3. Inglés (Azul) */
+.banner-ingles {
+  background-color: #001f3f !important;
+}
+.banner-ingles .banner-text h1,
+.banner-ingles .banner-text p { color: #ffffff !important; }
+
+/* 4. Lenguaje y Literatura (Rojo) */
+.banner-lenguaje {
+  background-color: #800 !important;
+}
+.banner-lenguaje .banner-text h1,
+.banner-lenguaje .banner-text p { color: #ffffff !important; }
+
+/* 5. Estudios Sociales / Historia (Naranja / Terracota) */
+.banner-sociales {
+  background-color: #00bfff !important;
+}
+.banner-sociales .banner-text h1,
+.banner-sociales .banner-text p { color: #ffffff !important; }
 
 /* ==========================================================================
    4. GRID Y PANELES BLANCOS
