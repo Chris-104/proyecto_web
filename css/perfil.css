@@ -519,10 +519,10 @@ body {
    FOOTER (PIE DE PÁGINA)
    ========================================================================== */
 .footer {
-  background-color: #ffffff;
-  border-top: 1px solid #e2e8f0;
-  padding: 40px 32px;
-  margin-top: auto;
+  background-color: var(--dark-navy);
+  color: #ffffff;
+  padding: 2.3rem 1.5rem 2rem 1.5rem;
+  margin-top: 1rem;
 }
 
 .footer-container {
@@ -530,136 +530,81 @@ body {
   margin: 0 auto;
   display: grid;
   grid-template-columns: 2fr repeat(4, 1fr);
-  gap: 32px;
-}
-
-.footer-col h4 {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 12px;
-}
-
-.footer-col ul {
-  list-style: none;
-}
-
-.footer-col ul li {
-  margin-bottom: 8px;
-}
-
-.footer-col a, .footer-col p {
-  color: #64748b;
-  font-size: 13px;
-  text-decoration: none;
-}
-
-.footer-logo {
-  font-weight: 800;
-  color: #2563eb;
-  font-size: 18px;
-  margin-bottom: 4px;
-}
-
-.footer-tagline {
-  font-weight: 700;
-  color: #1e293b !important;
-  margin-bottom: 6px;
-}
-
-.footer-desc {
-  max-width: 220px;
-  line-height: 1.4;
-}
-/* ==========================================================================
-   PIE DE PÁGINA (FOOTER)
-   ========================================================================== */
-.footer {
-    background-color: var(--dark-navy);
-    color: #ffffff;
-    padding: 2.3rem 1.5rem 2rem 1.5rem;
-    margin-top: 1rem;
-}
-
-.footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
-    gap: 1.5rem;
+  gap: 1.5rem;
 }
 
 .footer-col {
-    position: relative;
-    padding-right: 0.5rem;
+  position: relative;
+  padding-right: 0.5rem;
 }
 
 .footer-col:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 10%;
-    height: 80%;
-    width: 1px;
-    background-color: rgba(255, 255, 255, 0.1);
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .brand-col {
-    padding-right: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 .footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
 }
 
 .footer-logo-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 2px solid #3b82f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #3b82f6;
-    font-size: 1.1rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b82f6;
+  font-size: 1.1rem;
 }
 
 .footer-brand-title {
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.1;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
 }
 
 .footer-brand-sub {
-    font-size: 0.65rem;
-    color: #9ca3af;
+  font-size: 0.65rem;
+  color: #9ca3af;
 }
 
 .footer-description {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    line-height: 1.4;
-    margin-bottom: 1.2rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  line-height: 1.4;
+  margin-bottom: 1.2rem;
 }
 
 .social-icons-row {
-    display: flex;
-    gap: 0.6rem;
+  display: flex;
+  gap: 0.6rem;
 }
 
 .social-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-decoration: none;
-    font-size: 0.85rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  font-size: 0.85rem;
 }
 
 .social-icon.tiktok { background-color: #000000; }
@@ -668,29 +613,29 @@ body {
 .social-icon.whatsapp { background-color: #25d366; }
 
 .footer-col h4 {
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff;
 }
 
 .footer-col ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .footer-col ul li,
 .footer-col ul li a {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    text-decoration: none;
-    transition: color 0.2s ease;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .footer-col ul li a:hover {
-    color: #ffffff;
+  color: #ffffff;
 }
 
 /* El círculo rosa (pointer) sobre "Preguntas frecuentes" */

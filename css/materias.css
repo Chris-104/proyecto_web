@@ -497,7 +497,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 2fr repeat(4, 1fr);
     gap: 1.5rem;
 }
 
@@ -543,6 +543,7 @@ body {
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.1;
+    color: #ffffff;
 }
 
 .footer-brand-sub {

@@ -451,10 +451,14 @@ main {
     font-size: 0.85rem;
 }
 
-.social-icon.tiktok { background-color: #000000; }
-.social-icon.instagram { background-color: #e1306c; }
-.social-icon.facebook { background-color: #1877f2; }
-.social-icon.whatsapp { background-color: #25d366; }
+.social-icon {
+    background: transparent;
+    width: auto;
+    height: auto;
+    padding: 0;
+    font-size: 1rem;
+    color: #ffffff;
+}
 
 .footer-col h4 {
     font-size: 0.9rem;
