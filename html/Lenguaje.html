@@ -5,30 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/materias.css">
+    <script src="../javascript/script.js" defer></script>
     <title>Focus Class - Lenguaje</title>
 </head>
 <body>
-     <header class="navbar">
-  <div class="nav-left">
-    <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú">
-      <i class="fa-solid fa-bars"></i>
-    </button>
-    
-    <div class="logo">
-      <div class="logo">
-  <img src="../assets/img/logo.png" alt="Logo de Focus Class" style="height: 74px; width: auto; object-fit: contain;">
-</div>
-    </div>
-    </div>
-  <div class="nav-right">
-    <button class="icon-btn" aria-label="Notificaciones"><i class="fa-regular fa-bell"></i></button>
-    <div class="user-profile">
-      <i class="fa-regular fa-user-circle avatar"></i>
-      <span>Usuario</span>
-      <i class="fa-solid fa-chevron-down dropdown-icon"></i>
-    </div>
-  </div>
-</header>
+     <!-- Menú Desplegable Lateral (Sidebar Overlay) -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" id="closeSidebarBtn" aria-label="Cerrar menú">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="menu.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Lenguaje.html">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Lenguaje</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="matematica.html">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>Matematica</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ciencias.html">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span>Ciencia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="historia.html">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>Sociales</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ingles.html">
+                        <i class="fa-solid fa-language"></i>
+                        <span>Ingles</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Overlay oscuro al abrir el menú -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Barra de Navegación Superior (Header) -->
+    <header class="navbar">
+        <div class="nav-left">
+            <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú">
+                <i class="fa-solid fa-list-ul"></i>
+            </button>
+            <a href="menu.html" class="logo-container">
+                <img src="../assets/img/logo.png" alt="Focus Class" class="logo-img">
+            </a>
+        </div>
+
+        <div class="nav-right">
+            <button class="icon-btn" aria-label="Notificaciones">
+                <i class="fa-regular fa-bell"></i>
+            </button>
+            <a href="perfil.html" class="user-menu" style="text-decoration:none;color:inherit;">
+                <div class="user-avatar-small">
+                    <i class="fa-regular fa-user"></i>
+                </div>
+                <span class="user-name">Usuario</span>
+                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+            </a>
+        </div>
+    </header>
 
 <main class="main-container">
   <section class="banner banner-lenguaje">
