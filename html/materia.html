@@ -7,12 +7,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/materia.css">
+    <script src="../javascript/script.js" defer></script>
 </head>
 <body>
 
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" id="closeSidebarBtn" aria-label="Cerrar menú">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="menu.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a></li>
+                <li><a href="Lenguaje.html"><i class="fa-solid fa-book-open"></i><span>Lenguaje</span></a></li>
+                <li><a href="matematica.html"><i class="fa-solid fa-calculator"></i><span>Matemática</span></a></li>
+                <li><a href="ciencias.html"><i class="fa-solid fa-microscope"></i><span>Ciencias</span></a></li>
+                <li><a href="historia.html"><i class="fa-solid fa-earth-americas"></i><span>Historia</span></a></li>
+                <li><a href="ingles.html"><i class="fa-solid fa-language"></i><span>Inglés</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <header>
     <div class="header-left">
-        <i class="fas fa-bars menu-btn"></i>
+        <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú" type="button">
+            <i class="fas fa-bars"></i>
+        </button>
         
         <div class="logo">
             <img src="../assets/img/logo.png" alt="Logo de Focus Class" style="height: 74px; width: auto; object-fit: contain;">
@@ -21,11 +44,11 @@
     
     <div class="header-right">
         <i class="far fa-bell"></i>
-        <div class="user-profile">
+        <a href="perfil.html" class="user-profile" style="text-decoration:none;color:inherit;">
             <i class="far fa-user-circle"></i>
             Usuario
             <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
-        </div>
+        </a>
     </div>
 </header>
     <main>
@@ -108,22 +131,21 @@
                         <i class="fas fa-eye"></i>
                     </div>
                     <div>
-                        <div class="footer-brand-title">FOCUS</div>
-                        <div class="footer-brand-sub">CLASS</div>
+                        <h3 class="footer-brand-title">Focus class</h3>
+                        <p class="footer-brand-sub">Aprende sin límites</p>
                     </div>
                 </div>
-                <p style="color: #cbd5e1; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Aprende sin límites</p>
                 <p class="footer-description">Plataforma educativa diseñada para impulsar el aprendizaje</p>
                 <div class="social-icons-row">
-                    <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-icon tiktok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="social-icon instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
 
             <div class="footer-col">
-                <h4>Navegación</h4>
+                <h4>Plataforma</h4>
                 <ul>
                     <li><a href="#">Inicio</a></li>
                     <li><a href="#">Mis clases</a></li>
@@ -134,11 +156,11 @@
             </div>
 
             <div class="footer-col">
-                <h4>Soporte</h4>
+                <h4>Ayuda</h4>
                 <ul>
                     <li><a href="#">Acerca de nosotros</a></li>
                     <li><a href="#">Centro de ayuda</a></li>
-                    <li><a href="#"><span class="pointer-circle"></span>Preguntas frecuentes</a></li>
+                    <li><a href="#">Preguntas frecuentes</a></li>
                     <li><a href="#">Contacto</a></li>
                 </ul>
             </div>
@@ -146,14 +168,14 @@
             <div class="footer-col">
                 <h4>Contacto</h4>
                 <ul>
-                    <li><a href="#">El Salvador</a></li>
-                    <li><a href="#">+503 6871 0254</a></li>
-                    <li><a href="#">contacto@focusclass.net</a></li>
+                    <li>El Salvador</li>
+                    <li>+503 6871 0234</li>
+                    <li>contacto@focusclass.hot</li>
                 </ul>
             </div>
 
             <div class="footer-col">
-                <h4>Proyectos</h4>
+                <h4>Otros proyectos</h4>
                 <ul>
                     <li><a href="#">Modelo de IA</a></li>
                     <li><a href="#">Tienda de videojuegos</a></li>
