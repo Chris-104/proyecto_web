@@ -6,15 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeSidebarBtn = document.getElementById('closeSidebarBtn');
     const sidebar = document.getElementById('sidebar');
     const sidebarBackdrop = document.getElementById('sidebarBackdrop') || document.getElementById('sidebarOverlay');
+    const body = document.body;
 
     function openSidebar() {
         if (sidebar) sidebar.classList.add('active');
         if (sidebarBackdrop) sidebarBackdrop.classList.add('active');
+        if (body) body.classList.add('sidebar-open');
     }
 
     function closeSidebar() {
         if (sidebar) sidebar.classList.remove('active');
         if (sidebarBackdrop) sidebarBackdrop.classList.remove('active');
+        if (body) body.classList.remove('sidebar-open');
     }
 
     if (openSidebarBtn) {
