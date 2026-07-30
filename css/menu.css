@@ -176,6 +176,9 @@ body {
   background-color: var(--navbar-bg);
   padding: 12px 30px;
   border-bottom: 2px solid var(--primary-blue);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .nav-left, .nav-right {
@@ -187,35 +190,86 @@ body {
 .menu-btn, .icon-btn {
   background: none;
   border: none;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: var(--text-dark);
   cursor: pointer;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: var(--dark-navy);
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    height: 100%;
 }
 
 .logo-icon {
-  color: var(--primary-blue);
-  font-size: 1.5rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
 }
 
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
+.logo-text {
+    display: flex;
+    flex-direction: column;
 }
 
-.avatar {
-  font-size: 1.8rem;
-  color: var(--text-dark);
+.brand-title {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #1d3557;
+    letter-spacing: 1px;
+}
+
+.brand-sub {
+    font-weight: 500;
+    font-size: 0.65rem;
+    color: #1d3557;
+    letter-spacing: 2px;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-avatar-small {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #1f2937;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #1f2937;
+}
+
+.logo-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    max-height: 56px;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1f2937;
+}
+
+.arrow-icon {
+    font-size: 0.75rem;
+    color: #6b7280;
 }
 
 
@@ -383,6 +437,7 @@ body {
   padding: 18px;
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  margin-top: 5.3rem;
 }
 
 .pending-header {

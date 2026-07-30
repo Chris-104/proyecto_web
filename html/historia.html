@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Focus Class - Vista de Inicio</title>
-  
-  <link rel="stylesheet" href="/css/menu.css">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="../javascript/script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/materias.css">
+    <script src="../javascript/script.js" defer></script>
+    <title>Focus Class - Historia</title>
 </head>
 <body>
-
-    <!-- Menú Desplegable Lateral (Sidebar Overlay) -->
+     <!-- Menú Desplegable Lateral (Sidebar Overlay) -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <button class="close-btn" id="closeSidebarBtn" aria-label="Cerrar menú">
@@ -89,146 +86,142 @@
         </div>
     </header>
 
-  <main class="main-container">
-    
-    <section class="dashboard-section">
-      <h1 class="welcome-title">Bienvenido Usuario</h1>
-      <h2 class="subtitle">Tus clases:</h2>
+<main class="main-container">
+  <section class="banner banner-sociales">
+  <div class="banner-icon">🗺️</div>
+  <div class="banner-text">
+    <h1>Estudios Sociales e Historia</h1>
+    <p>Gestiona tus tareas y exámenes de esta materia</p>
+  </div>
+</section>
+    <div class="dashboard-grid">
 
-      <div class="metrics-container">
-        
-        <div class="metric-card">
-          <i class="fa-solid fa-book metric-icon blue"></i>
-          <div>
-            <h3>5</h3>
-            <p>Materias</p>
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="icon-red">📌</span>
+            <h2>Tareas pendientes</h2>
           </div>
+          <span class="badge">3 pendientes</span>
         </div>
 
-        <div class="metric-card">
-          <i class="fa-solid fa-pen-to-square metric-icon green"></i>
-          <div>
-            <h3>9</h3>
-            <p>Tareas</p>
-          </div>
-        </div>
-
-        <div class="metric-card">
-          <i class="fa-solid fa-clock metric-icon purple"></i>
-          <div>
-            <h3>4</h3>
-            <p>Tareas pendientes</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="courses-grid">
-        
-        <div class="course-card card-math">
-          
-          <img src="../assets/img/imagen.png"  class="card-banner">
-        </div>
-
-        <div class="course-card card-science">
-        
-          <img src="../assets/img/cienciasimg.png" class="card-banner">
-          <div class="card-illustration"></div>
-        </div>
-
-        <div class="course-card card-history">
-      
-          <img src="../assets/img/historiasimg.png" class="card-banner">
-          <div class="card-illustration"></div>
-        </div>
-
-        <div class="course-card card-language">
-        
-            <img src="../assets/img/lenguajeimg.png"  class="card-banner">
-          <div class="card-illustration"></div>
-        </div>
-
-        <div class="course-card card-english">
-         
-          <img src="../assets/img/inglesimg.png"  class="card-banner">
-          <div class="card-illustration"></div>
-        </div>
-
-        <div class="course-card card-add">
-          <div class="add-icon">+</div>
-          <p>Agregar nueva materia</p>
-          <button class="btn btn-primary">+ Crear clase</button>
-        </div>
-
-        
-      </div>
-    </section>
-
-    <aside class="sidebar-section">
-      <div class="pending-box">
-        <div class="pending-header">
-          <h2><i class="fa-regular fa-clipboard"></i> Tareas pendientes</h2>
-          <a href="#" class="see-all">Ver todas</a>
-        </div>
-
-        <div class="tasks-list">
-          
-          <div class="task-item">
-            <span class="status-indicator red"></span>
-            <div class="task-info">
-              <h4>Matemáticas</h4>
-              <p>Resolver guía 3</p>
+        <div class="card-list">
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-file">📄</span>
+              <div class="card-info">
+                <h3>Línea de Tiempo: Repercusiones de la Revolución Industrial</h3>
+                <p>Historia Universal</p>
+              </div>
             </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 19/03/2026</span>
+                <small>Fecha de entrega</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
             </div>
           </div>
 
-          <div class="task-item">
-            <span class="status-indicator red"></span>
-            <div class="task-info">
-              <h4>Ciencia</h4>
-              <p>Resolver quiz 3</p>
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-file">📄</span>
+              <div class="card-info">
+                <h3>Mapa Temático: Relieve y Geografía Física de América</h3>
+                <p>Geografía</p>
+              </div>
             </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
-            </div>
-          </div>
-
-          <div class="task-item">
-            <span class="status-indicator green"></span>
-            <div class="task-info">
-              <h4>Inglés</h4>
-              <p>Resolver guía 2</p>
-            </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 23/03/2026</span>
+                <small>Fecha de entrega</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
             </div>
           </div>
 
-          <div class="task-item">
-            <span class="status-indicator orange"></span>
-            <div class="task-info">
-              <h4>Matemáticas</h4>
-              <p>Resolver guía 3</p>
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-file">📄</span>
+              <div class="card-info">
+                <h3>Cuadro Comparativo: Formas de Gobierno Democráticas y Autoritarias</h3>
+                <p>Educación Cívica</p>
+              </div>
             </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 26/03/2026</span>
+                <small>Fecha de entrega</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
             </div>
           </div>
-
         </div>
 
-        <button class="btn btn-primary btn-block">Ver todas las tareas</button>
-      </div>
-    </aside>
+        <button class="btn-add">+ Agregar nueva tarea</button>
+      </section>
 
+      <section class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span class="icon-red">📋</span>
+            <h2>Exámenes por realizar</h2>
+          </div>
+          <span class="badge">2 próximos</span>
+        </div>
+
+        <div class="card-list">
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-brain">🧠</span>
+              <div class="card-info">
+                <h3>Examen Parcial - La Guerra Fría y el Orden Mundial</h3>
+                <p class="topics-heading">Temas por estudiar:</p>
+                <ul class="topics-list">
+                  <li>Bloque occidental vs. Bloque soviético</li>
+                  <li>Conflictos indirectos (Guerra de Corea y Vietnam)</li>
+                  <li>Caída del Muro de Berlín y fin de la URSS</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 21/03/2026</span>
+                <small>Fecha de realización</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-left">
+              <span class="card-icon-brain">🧠</span>
+              <div class="card-info">
+                <h3>Quiz - Derechos Humanos y Ciudadanía</h3>
+                <p class="topics-heading">Temas por estudiar:</p>
+                <ul class="topics-list">
+                  <li>Declaración Universal de los Derechos Humanos</li>
+                  <li>Mecanismos de participación ciudadana</li>
+                  <li>Constitución y estructura del Estado</li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-right">
+              <div class="card-date">
+                <span>📅 27/03/2026</span>
+                <small>Fecha de realización</small>
+              </div>
+              <span class="card-arrow">&gt;</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-add">+ Agregar nuevo examen</button>
+      </section>
+
+    </div>
   </main>
-
-  <footer class="footer">
+<footer class="footer">
     <div class="footer-container">
       
       <div class="footer-col brand-col">
@@ -292,6 +285,5 @@
 
     </div>
   </footer>
-
 </body>
 </html>
