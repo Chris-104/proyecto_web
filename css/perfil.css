@@ -727,3 +727,57 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   RESPONSIVE ADICIONAL
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-col::after {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-row-two {
+        grid-template-columns: 1fr;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .navbar {
+        padding: 0 1rem;
+    }
+
+    .main-container {
+        padding: 0 16px;
+        margin: 24px auto 48px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+        padding: 24px 16px;
+    }
+
+    .profile-content .panel {
+        padding: 16px;
+    }
+}

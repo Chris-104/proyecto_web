@@ -592,3 +592,69 @@ body.sidebar-open .footer {
 }
 
 .footer-col ul li a:hover { color: #ffffff; }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .pending-box {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .metrics-container {
+        flex-direction: column;
+    }
+
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .navbar {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-card {
+        height: 130px;
+    }
+
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .main-container {
+        padding: 0 12px;
+        margin: 15px auto;
+    }
+}
