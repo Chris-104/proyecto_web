@@ -53,7 +53,7 @@ header {
 
 .menu-btn {
     font-size: 20px;
-    color: #333;
+    color: hsl(0, 0%, 20%);
     cursor: pointer;
 }
 

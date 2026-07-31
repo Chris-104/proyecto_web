@@ -468,6 +468,9 @@ body {
    ========================================================================== */
 .btn-add {
   width: 100%;
+  display: block;
+  text-align: center;
+  text-decoration: none;
   background-color: #ffebee;
   color: #ef4444;
   border: none;
@@ -528,8 +531,8 @@ body {
 }
 
 .footer-logo-icon {
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     border: 2px solid #3b82f6;
     display: flex;

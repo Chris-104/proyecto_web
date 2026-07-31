@@ -1,1 +1,277 @@
-<!doctype html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus Class - Agregar Nueva Tarea</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link rel="stylesheet" href="../css/nueva-tarea.css">
+    <script src="../javascript/script.js" defer></script>
+</head>
+<body>
+
+    <!-- >>> INICIO CAMBIOS <<< -->
+    <!-- Menú Desplegable Lateral (Sidebar Overlay) -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-btn" id="closeSidebarBtn" aria-label="Cerrar menú">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="menu.html">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Lenguaje.html">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Lenguaje</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="matematica.html">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>Matematica</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ciencias.html">
+                        <i class="fa-solid fa-microscope"></i>
+                        <span>Ciencia</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="historia.html">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>Sociales</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="ingles.html">
+                        <i class="fa-solid fa-language"></i>
+                        <span>Ingles</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Overlay oscuro al abrir el menú -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+    <!-- >>> FIN CAMBIOS <<< -->
+
+    <header class="header">
+        <div class="header__container">
+            <div class="header__left">
+                <button class="header__menu-btn" id="openSidebarBtn" aria-label="Abrir menú de navegación">
+                    <i class="fa-solid fa-list-ul"></i>
+                </button>
+                <a href="menu.html" class="logo-container">
+                    <img src="../assets/img/logo.png" alt="Logo de Focus Class" class="logo-img">
+                </a>
+            </div>
+
+            <div class="header__right">
+                <button class="header__icon-btn" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+                <a href="perfil.html" class="header__user-profile" style="text-decoration:none;color:inherit;">
+                    <div class="header__avatar">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <span class="header__user-name">Usuario</span>
+                    <i class="fa-solid fa-chevron-down header__dropdown-icon"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="task-card">
+            <div class="task-card__header">
+                <div class="task-card__icon-box">
+                    <i class="fa-regular fa-file-lines"></i>
+                </div>
+                <div class="task-card__title-group">
+                    <h1 class="task-card__title">Agregar nueva tarea</h1>
+                    <p class="task-card__subtitle">Organiza tus entregas y proyectos pendientes.</p>
+                </div>
+            </div>
+
+            <form class="task-form" action="#" method="POST">
+                <div class="task-form__field">
+                    <label for="task-name" class="task-form__label">Nombre de la tarea</label>
+                    <input 
+                        type="text" 
+                        id="task-name" 
+                        class="task-form__input" 
+                        placeholder="Ej. Informe de Laboratorio de Química" 
+                        required
+                    >
+                </div>
+
+                <div class="task-form__field">
+                    <label for="task-desc" class="task-form__label">Descripción / Instrucciones</label>
+                    <textarea 
+                        id="task-desc" 
+                        class="task-form__textarea" 
+                        rows="4" 
+                        placeholder="Pasos a seguir, requisitos o enlaces importantes..."
+                    ></textarea>
+                </div>
+
+                <div class="task-form__row">
+                    <div class="task-form__field">
+                        <label for="due-date" class="task-form__label">Fecha de entrega</label>
+                        <div class="task-form__input-wrapper">
+                            <i class="fa-regular fa-calendar task-form__icon-left"></i>
+                            <input 
+                                type="text" 
+                                id="due-date" 
+                                class="task-form__input task-form__input--icon" 
+                                placeholder="mm/dd/yyyy"
+                                onfocus="(this.type='date')"
+                                onblur="(this.type='text')"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="task-form__field">
+                        <label for="priority" class="task-form__label">Prioridad</label>
+                        <div class="task-form__select-wrapper">
+                            <span class="task-form__priority-badge">!</span>
+                            <select id="priority" class="task-form__select">
+                                <option value="alta" selected>Alta</option>
+                                <option value="media">Media</option>
+                                <option value="baja">Baja</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down task-form__icon-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-reminder">
+                    <div class="task-reminder__header">
+                        <div class="task-reminder__title-wrapper">
+                            <i class="fa-regular fa-clock task-reminder__icon"></i>
+                            <div>
+                                <h3 class="task-reminder__title">Recordatorio de entrega</h3>
+                                <p class="task-reminder__subtitle">Notificar antes de la fecha límite</p>
+                            </div>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="toggle-switch__input" checked>
+                            <span class="toggle-switch__slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="task-reminder__row">
+                        <div class="task-form__select-wrapper task-form__select-wrapper--reminder">
+                            <select class="task-form__select">
+                                <option value="24">24 horas antes</option>
+                                <option value="12">12 horas antes</option>
+                                <option value="1">1 hora antes</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down task-form__icon-right"></i>
+                        </div>
+
+                        <div class="task-form__select-wrapper task-form__select-wrapper--reminder">
+                            <select class="task-form__select">
+                                <option value="18:00">06:00 PM</option>
+                                <option value="08:00">08:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down task-form__icon-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-form__actions">
+                    <button type="reset" class="btn btn--outline">Limpiar</button>
+                    <button type="submit" class="btn btn--primary">
+                        Guardar tarea
+                        <i class="fa-regular fa-circle-check btn__icon"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__col footer__col--brand">
+                <div class="footer__logo-group">
+                    <div class="footer__logo-icon">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div>
+                        <h2 class="footer__brand-title">Focus class</h2>
+                        <span class="footer__brand-tagline">Aprende sin límites</span>
+                    </div>
+                </div>
+                <p class="footer__description">
+                    Plataforma educativa diseñada para impulsar el aprendizaje
+                </p>
+                <div class="footer__socials">
+                    <a href="#" aria-label="TikTok" class="footer__social-link"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" aria-label="Instagram" class="footer__social-link"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook" class="footer__social-link"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="WhatsApp" class="footer__social-link"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer__col">
+                <h3 class="footer__col-title">Plataforma</h3>
+                <ul class="footer__list">
+                    <li><a href="#" class="footer__link">Inicio</a></li>
+                    <li><a href="#" class="footer__link">Mis clases</a></li>
+                    <li><a href="#" class="footer__link">Tareas</a></li>
+                    <li><a href="#" class="footer__link">Calendario</a></li>
+                    <li><a href="#" class="footer__link">Progreso</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <h3 class="footer__col-title">Ayuda</h3>
+                <ul class="footer__list">
+                    <li><a href="#" class="footer__link">Acerca de nosotros</a></li>
+                    <li><a href="#" class="footer__link">Centro de ayuda</a></li>
+                    <li><a href="#" class="footer__link">Preguntas frecuentes</a></li>
+                    <li><a href="#" class="footer__link">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <h3 class="footer__col-title">Contacto</h3>
+                <ul class="footer__list footer__list--static">
+                    <li>El Salvador</li>
+                    <li>+503 6871 0234</li>
+                    <li>contacto@focusclass.hot</li>
+                </ul>
+            </div>
+
+            <div class="footer__col">
+                <h3 class="footer__col-title">Otros proyectos</h3>
+                <ul class="footer__list">
+                    <li><a href="#" class="footer__link">Modelo de IA</a></li>
+                    <li><a href="#" class="footer__link">Tienda de videojuegos</a></li>
+                    <li><a href="#" class="footer__link">App de citas</a></li>
+                    <li><a href="#" class="footer__link">Tienda de comida</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+

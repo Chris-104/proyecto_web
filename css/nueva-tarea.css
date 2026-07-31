@@ -1,0 +1,725 @@
+/* ==========================================================================
+   1. RESET Y VARIABLES GLOBALES
+   ========================================================================== */
+/* Reset básico para normalizar padding, margin y sizing entre navegadores */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Variables CSS para consistente gestión de paleta, bordes y fuentes */
+:root {
+  /* Colores */
+  --clr-bg-main: #f5f7fb;       /* Color de fondo neutro para el contenedor principal */
+  --clr-surface: #ffffff;       /* Fondo blanco para tarjeta y header */
+  --clr-dark-navy: #09101d;     /* Fondo del footer y botón primario */
+  --clr-brand-blue: #2563eb;    /* Azul primario para enlaces e interactividad */
+  --clr-light-blue: #eff4ff;    /* Fondo celeste claro del bloque de recordatorio */
+  --clr-text-main: #1e293b;     /* Color de texto oscuro para títulos */
+  --clr-text-muted: #64748b;    /* Color de texto secundario e instrucciones */
+  --clr-border: #e2e8f0;        /* Bordes sutiles en los inputs y separadores */
+
+  /* Tipografía */
+  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Bordes Redondeados */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Sombras */
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+/* Configuración básica del cuerpo de la página */
+body {
+  font-family: var(--font-family);
+  background-color: var(--clr-bg-main);
+  color: var(--clr-text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   2. ENCABEZADO / HEADER
+   ========================================================================== */
+/* Barra superior que simula el borde superior en la captura */
+.header {
+  background-color: var(--clr-surface);
+  border-bottom: 1px solid var(--clr-border);
+  border-top: 4px solid #3c2427; /* Borde superior tono granate idéntico al diseño */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Layout en Flexbox para distribuir menú, logo y perfil */
+.header__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Sección izquierda con alineación Flex */
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Botón de lista / hamburguesa */
+.header__menu-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--clr-text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Marca e Isotipo */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    height: 100%;
+}
+
+.logo-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-color: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.logo-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    max-height: 56px;
+}
+
+/* Sección derecha (Notificación + Usuario) */
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header__icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--clr-text-main);
+  cursor: pointer;
+}
+
+.header__user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.header__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--clr-text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.header__user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.header__dropdown-icon {
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+}
+
+/* ==========================================================================
+   >>> INICIO CAMBIOS <<<
+   ========================================================================== */
+/* ==========================================================================
+   2.5 MENÚ DESPLEGABLE LATERAL (SIDEBAR)
+   ========================================================================== */
+body.sidebar-open {
+  overflow: hidden;
+}
+
+.sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.sidebar-backdrop.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: min(280px, 85vw);
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 120;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+  transition: left 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar-header {
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--clr-text-main);
+  cursor: pointer;
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 15px 0;
+}
+
+.sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 14px 25px;
+  color: var(--clr-text-main);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-nav li a:hover {
+  background-color: #f1f5f9;
+  color: var(--clr-brand-blue);
+}
+
+.sidebar-nav li a i {
+  font-size: 1.2rem;
+  width: 25px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   >>> FIN CAMBIOS <<<
+   ========================================================================== */
+
+/* ==========================================================================
+   3. SECCIÓN PRINCIPAL Y TARJETA DEL FORMULARIO
+   ========================================================================== */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+/* Contenedor central flotante para el formulario */
+.task-card {
+  background-color: var(--clr-surface);
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Encabezado de la tarjeta */
+.task-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.task-card__icon-box {
+  width: 44px;
+  height: 44px;
+  background-color: var(--clr-light-blue);
+  color: #2563eb;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.task-card__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--clr-text-main);
+  margin-bottom: 0.15rem;
+}
+
+.task-card__subtitle {
+  font-size: 0.825rem;
+  color: var(--clr-text-muted);
+}
+
+/* ==========================================================================
+   4. ESTILOS DE CAMPOS Y FORMULARIO
+   ========================================================================== */
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.task-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.task-form__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--clr-text-main);
+}
+
+/* Entradas de Texto, Área de Texto y Selects */
+.task-form__input,
+.task-form__textarea,
+.task-form__select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--clr-text-main);
+  background-color: #fbfcfd;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.task-form__input::placeholder,
+.task-form__textarea::placeholder {
+  color: #a0aec0;
+}
+
+.task-form__input:focus,
+.task-form__textarea:focus,
+.task-form__select:focus {
+  border-color: var(--clr-brand-blue);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.task-form__textarea {
+  resize: vertical;
+  min-height: 95px;
+}
+
+/* Estructura CSS Grid para colocar 2 campos lado a lado */
+.task-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Inputs con Iconos Posicionados Absolutamente */
+.task-form__input-wrapper,
+.task-form__select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.task-form__icon-left {
+  position: absolute;
+  left: 1rem;
+  color: var(--clr-text-muted);
+  pointer-events: none;
+}
+
+.task-form__input--icon {
+  padding-left: 2.5rem;
+}
+
+/* Selector estilizado con icono personalizado */
+.task-form__select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.task-form__priority-badge {
+  position: absolute;
+  left: 1rem;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #000;
+  pointer-events: none;
+}
+
+.task-form__select-wrapper select {
+  padding-left: 2.25rem;
+  padding-right: 2rem;
+}
+
+.task-form__icon-right {
+  position: absolute;
+  right: 1rem;
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   5. BLOQUE Y SWITCH DE RECORDATORIO
+   ========================================================================== */
+.task-reminder {
+  background-color: var(--clr-light-blue);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.task-reminder__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-reminder__title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.task-reminder__icon {
+  font-size: 1.25rem;
+  color: #1e3a8a;
+}
+
+.task-reminder__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--clr-text-main);
+}
+
+.task-reminder__subtitle {
+  font-size: 0.78rem;
+  color: var(--clr-text-muted);
+}
+
+/* Columnas Grid internas para el recordatorio */
+.task-reminder__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.task-form__select-wrapper--reminder .task-form__select {
+  background-color: #ffffff;
+  padding-left: 1rem;
+}
+
+/* Switch Toggle Interruptor */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.toggle-switch__input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #cbd5e1;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-switch__slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggle-switch__input:checked + .toggle-switch__slider {
+  background-color: var(--clr-brand-blue);
+}
+
+.toggle-switch__input:checked + .toggle-switch__slider:before {
+  transform: translateX(20px);
+}
+
+/* ==========================================================================
+   6. BOTONES DE ACCIÓN
+   ========================================================================== */
+.task-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  padding: 0.65rem 1.5rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+/* Botón Limpiar (Estilo Delineado) */
+.btn--outline {
+  background: #ffffff;
+  border: 1px solid #2563eb;
+  color: #2563eb;
+}
+
+.btn--outline:hover {
+  background-color: #f0f7ff;
+}
+
+/* Botón Guardar Tarea (Estilo Oscuro) */
+.btn--primary {
+  background-color: var(--clr-dark-navy);
+  border: 1px solid var(--clr-dark-navy);
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background-color: #1a2332;
+}
+
+.btn__icon {
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   7. PIE DE PÁGINA / FOOTER (GRID DE 5 COLUMNAS CON DIVISIONES)
+   ========================================================================== */
+.footer {
+  background-color: var(--clr-dark-navy);
+  color: #ffffff;
+  padding: 3rem 1.5rem 2.5rem;
+  margin-top: auto;
+}
+
+/* Distribución CSS Grid de 5 columnas para replicar el layout visual */
+.footer__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1.1fr 1.1fr 1.1fr 1.2fr;
+  gap: 1.5rem;
+}
+
+/* Línea separadora vertical idéntica al prototipo */
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding-right: 1.25rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer__col:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+/* Identidad del Footer */
+.footer__logo-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer__logo-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #38bdf8;
+  font-size: 0.9rem;
+}
+
+.footer__brand-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.footer__brand-tagline {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  display: block;
+}
+
+.footer__description {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  line-height: 1.4;
+  max-width: 220px;
+}
+
+/* Iconos de Redes Sociales */
+.footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.footer__social-link {
+  color: #ffffff;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer__social-link:hover {
+  color: #38bdf8;
+}
+
+/* Títulos y Enlaces de Listas */
+.footer__col-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.footer__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.footer__link {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.82rem;
+  transition: color 0.2s ease;
+}
+
+.footer__link:hover {
+  color: #ffffff;
+}
+
+.footer__list--static li {
+  color: #94a3b8;
+  font-size: 0.82rem;
+}
+
+/* ==========================================================================
+   8. RESPONSIVIDAD (MEDIA QUERIES)
+   ========================================================================== */
+
+/* Breakpoint para Tablets / Pantallas medianas (máx. 992px) */
+@media (max-width: 992px) {
+  .footer__container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .footer__col {
+    border-right: none;
+    padding-right: 0;
+  }
+}
+
+/* Breakpoint para Dispositivos Móviles (máx. 600px) */
+@media (max-width: 600px) {
+  .task-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  /* Colapsar cuadrículas a 1 sola columna en smartphones */
+  .task-form__row,
+  .task-reminder__row {
+    grid-template-columns: 1fr;
+  }
+
+  .task-form__actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer__container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
