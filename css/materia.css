@@ -29,72 +29,89 @@ body.sidebar-open {
 }
 
 /* =========================================
-   ENCABEZADO (HEADER)
+   ENCABEZADO SUPERIOR (HEADER) TIPO CIENCIAS
 ========================================= */
-/* =========================================
-   ENCABEZADO (HEADER)
-========================================= */
-header {
+.navbar {
     background-color: #ffffff;
     height: 70px;
+    padding: 0 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
-    /* Aumentamos la extensión de la sombra y la opacidad al 30% */
-    box-shadow: 0 4px 15px rgba(0, 40, 120, 0.3);
+    border-bottom: 2px solid var(--primary-blue);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.header-left, .header-right {
+.nav-left, .nav-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 1.5rem;
 }
 
-.menu-btn {
-    font-size: 20px;
-    color: hsl(0, 0%, 20%);
+.menu-btn, .icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    color: #1f2937;
     cursor: pointer;
-}
-
-.logo {
+    padding: 0.5rem;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    color: #003366;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1;
-    margin-left: 20px;
+    justify-content: center;
+    transition: color 0.2s ease;
 }
 
-.logo i {
-    font-size: 24px;
-    color: #0056d2;
+.menu-btn:hover, .icon-btn:hover {
+    color: var(--primary-blue);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    height: 100%;
 }
 
 .logo-img {
-    height: 74px;
+    height: 100%;
     width: auto;
     object-fit: contain;
+    max-height: 56px;
 }
 
-.header-right {
-    color: #555;
-    font-size: 18px;
-}
-
-.user-profile {
+.user-menu {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    gap: 0.5rem;
     cursor: pointer;
+    user-select: none;
 }
 
-.user-profile i.fa-user-circle {
-    font-size: 24px;
+.user-avatar-small {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #1f2937;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #1f2937;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1f2937;
+}
+
+.arrow-icon {
+    font-size: 0.75rem;
+    color: #6b7280;
 }
 
 /* =========================================
@@ -268,12 +285,9 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background: white;
     color: #555;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 1.4rem;
 }
 
 .icon-btn.active {
