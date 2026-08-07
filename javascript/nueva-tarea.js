@@ -5,12 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const tasksList = document.querySelector('.tasks-list'); // lista "Tareas pendientes" (menu.html)
 
     function fitBox() {
-        // Panel "Tareas pendientes": altura fija en la lista para que el cuadro no crezca.
-        // El encabezado y el botón quedan fijos y solo la lista hace scroll.
+        // Mostrar máximo 2 tareas de vista; el recuadro se ajusta a esa medida
+        // y las demás se ven con scroll interno.
         if (tasksList) {
-            tasksList.style.maxHeight = '';
-            const availList = window.innerHeight - 320;
-            const listHeight = Math.max(120, Math.min(320, availList));
+            const pendingBox = tasksList.closest('.pending-box');
+            if (pendingBox) {
+                pendingBox.style.height = '';
+                pendingBox.style.overflow = '';
+            }
+
+            const firstItem = tasksList.querySelector('.task-item');
+            const gap = 10;
+            const listHeight = firstItem ? firstItem.offsetHeight * 2 + gap : 170;
+
             tasksList.style.maxHeight = listHeight + 'px';
             tasksList.style.overflowY = 'auto';
             tasksList.style.overflowX = 'hidden';
@@ -20,6 +27,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fitBox();
     window.addEventListener('resize', fitBox);
+
+    // ==========================================================================
+    // LAYOUT: subir el recuadro de tareas y dejarlo a la mitad del ancho
+    // (el recuadro de exámenes ocupa la otra mitad, ver nuevo-examen.js)
+    // ==========================================================================
+    function layoutBoxes() {
+        const sidebarSection = document.querySelector('.sidebar-section');
+        if (!sidebarSection) return;
+
+        sidebarSection.style.display = 'flex';
+        sidebarSection.style.flexDirection = 'column';
+        sidebarSection.style.gap = '12px';
+        sidebarSection.style.alignItems = 'stretch';
+
+        const pendingBox = sidebarSection.querySelector('.pending-box');
+        if (pendingBox) {
+            pendingBox.style.width = '100%';
+            pendingBox.style.boxSizing = 'border-box';
+            pendingBox.style.marginTop = '1rem';
+        }
+    }
+
+    layoutBoxes();
 
     // ==========================================================================
     // TAREAS (AGREGAR Y MOSTRAR) VÍA localStorage
@@ -122,6 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             tasksList.appendChild(item);
         });
+
+        fitBox();
     }
 
     // ==========================================================================
