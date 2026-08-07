@@ -334,14 +334,12 @@ body {
 }
 
 /* INICIO CAMBIO CARRUSEL Y BANNER */
-/* Mover la tarjeta del banner un poco a la izquierda */
 .banner-card {
     width: 100%;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     background: #ffffff;
-    transform: translateX(-15px); /* Desplaza la tarjeta 15px hacia la izquierda */
 }
 
 /* Imagen principal con mayor altura/tamaño */
