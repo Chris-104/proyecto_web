@@ -625,3 +625,108 @@ body {
         display: none;
     }
 }
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 1rem;
+    }
+
+    .nav-left, .nav-right {
+        gap: 0.75rem;
+    }
+
+    .user-name, .arrow-icon {
+        display: none;
+    }
+
+    .main-container {
+        padding: 0 12px;
+        margin: 16px auto;
+    }
+
+    .banner {
+        padding: 16px 20px;
+    }
+
+    .banner-icon {
+        font-size: 20px;
+        padding: 8px;
+    }
+
+    .banner-text h1 {
+        font-size: 22px;
+    }
+
+    .panel {
+        padding: 16px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        height: 60px;
+    }
+
+    .logo-img {
+        max-height: 44px;
+    }
+
+    .banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 16px;
+    }
+
+    .banner-text h1 {
+        font-size: 20px;
+    }
+
+    .banner-text p {
+        font-size: 12px;
+    }
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .card {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .card-right {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .card-date {
+        align-items: flex-start;
+    }
+
+    .card-info h3 {
+        font-size: 13px;
+        overflow-wrap: break-word;
+    }
+
+    .btn-add {
+        font-size: 12px;
+        padding: 12px;
+    }
+
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-col {
+        padding-right: 0;
+    }
+
+    .brand-col {
+        padding-right: 0;
+    }
+}
