@@ -321,6 +321,26 @@ body {
 .banner-sociales .banner-text h1,
 .banner-sociales .banner-text p { color: #ffffff !important; }
 
+/* Materias creadas por el usuario (fondo genérico, sin color personalizado) */
+.banner-materia {
+  background-image: url('../assets/img/imagen-generica.png');
+  background-size: cover;
+  background-position: center;
+}
+.banner-materia .banner-text h1,
+.banner-materia .banner-text p {
+  color: #ffffff !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+/* Mensaje mostrado cuando un panel no tiene tareas/exámenes todavía */
+.empty-state {
+  font-size: 12px;
+  color: var(--text-gray);
+  text-align: center;
+  padding: 20px 0;
+}
+
 /* ==========================================================================
    4. GRID Y PANELES BLANCOS
    ========================================================================== */

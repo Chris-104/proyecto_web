@@ -442,6 +442,33 @@ body.sidebar-open .footer {
   color: #334155;
 }
 
+/* Tarjeta para materias creadas por el usuario (fondo genérico) */
+.card-new {
+  background-color: #0f172a;
+  justify-content: flex-end;
+}
+
+.card-new-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.card-new-teacher {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.card-new-desc {
+  font-size: 0.7rem;
+  opacity: 0.95;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
 
 /* ==========================================================================
    7. PANEL LATERAL DE TAREAS PENDIENTES
