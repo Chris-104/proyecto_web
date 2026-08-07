@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
-    // CAROUSEL LOGIC (MANUAL CLICK ON DOTS)
+    // CAROUSEL LOGIC (MANUAL CLICK ON DOTS + AUTOMÁTICO CADA 3 SEGUNDOS)
     // ==========================================================================
     const slides = document.querySelectorAll('.carousel-slide');
     const dots = document.querySelectorAll('.carousel-dots .dot');
@@ -59,9 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Función que avanza automáticamente a la siguiente diapositiva
+    function siguienteSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    // El carrusel cambia de imagen y frase automáticamente cada 3 segundos
+    let intervaloAutomatico = setInterval(siguienteSlide, 3000);
+
+    // Al hacer clic en un punto se muestra esa diapositiva y se reinicia el tiempo
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
             showSlide(index);
+            // Se reinicia el contador para que la siguiente imagen vuelva a esperar 3s
+            clearInterval(intervaloAutomatico);
+            intervaloAutomatico = setInterval(siguienteSlide, 3000);
         });
     });
 });

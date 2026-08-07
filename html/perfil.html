@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/perfil.css">
+    <script src="../javascript/usuario.js" defer></script>
     <script src="../javascript/script.js" defer></script>
     <title>Focus Class-Perfil</title>
 </head>
@@ -94,12 +95,12 @@
           <i class="fa-regular fa-user"></i>
         </div>
       </div>
-      <h2 class="username">User01927456</h2>
+      <h2 class="username" id="perfilNombre">User01927456</h2>
       <span class="user-role">USUARIO</span>
       
       <hr class="divider">
       
-      <a href="../index.html" class="btn-logout" style="text-decoration:none;">
+      <a href="../index.html" class="btn-logout" id="btnCerrarSesion" style="text-decoration:none;">
         <i class="fa-solid fa-arrow-right-from-bracket"></i> CERRAR SESIÓN
       </a>
     </aside>
@@ -115,11 +116,16 @@
           </div>
           <div class="form-group">
             <label>Nombre de usuario</label>
-            <input type="text" value="User01927456" readonly class="input-field">
+            <input type="text" id="perfilUsuarioInput" value="User01927456" readonly class="input-field">
           </div>
           <div class="form-group">
             <label>Contraseña</label>
-            <input type="password" value="**********" readonly class="input-field">
+            <div class="password-wrapper">
+              <input type="password" id="perfilContrasenaInput" value="123456" readonly class="input-field">
+              <button type="button" class="password-toggle" id="toggleContrasenaPerfil" aria-label="Mostrar contraseña">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
           </div>
         </section>
 

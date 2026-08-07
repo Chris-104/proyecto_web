@@ -445,6 +445,39 @@ body {
   outline: none;
 }
 
+/* Contenedor del campo de contraseña con botón de ojo */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Espacio a la derecha para que el texto no choque con el botón */
+.password-wrapper .input-field[type="password"] {
+  padding-right: 2.6rem;
+}
+
+/* Botón "ojo" para mostrar/ocultar la contraseña */
+.password-wrapper .password-toggle {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 1rem;
+  padding: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-wrapper .password-toggle:hover {
+  color: #2563eb;
+}
+
 /* Insignias */
 .badge-item {
   background-color: #eff6ff;

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <!-- Archivo de estilos CSS -->
     <link rel="stylesheet" href="/css/estilo.css">
+    <!-- Archivo con los arrays de usuarios -->
+    <script src="javascript/usuario.js" defer></script>
     <script src="/javascript/script.js" defer></script>
 </head>
 <body>
@@ -221,18 +223,24 @@
                         <i class="fa-regular fa-user"></i>
                     </div>
 
-                    <form class="login-form" onsubmit="event.preventDefault();">
+                    <form class="login-form" onsubmit="return manejarLogin(event);">
                         <div class="input-group">
                             <i class="fa-regular fa-user input-icon"></i>
-                            <input type="text" placeholder="Nombre de usuario" required>
+                            <input type="text" id="loginUsuario" placeholder="Nombre de usuario" required>
                         </div>
 
                         <div class="input-group">
                             <i class="fa-solid fa-lock input-icon"></i>
-                            <input type="password" placeholder="Contraseña" required>
+                            <input type="password" id="loginContrasena" placeholder="Contraseña" required>
+                            <button type="button" class="password-toggle" id="toggleContrasena" aria-label="Mostrar contraseña">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
                         </div>
 
-                        <a href="/html/menu.html" class="btn-primary" style="text-decoration:none;text-align:center;display:block;">Entrar</a>
+                        <!-- Mensaje de error del login -->
+                        <p id="loginMensaje" class="login-message"></p>
+
+                        <button type="submit" class="btn-primary">Entrar</button>
 
                         <div class="divider">
                             <span>o continúa con</span>
