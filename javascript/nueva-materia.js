@@ -5,15 +5,22 @@
 //   1. La VISTA PREVIA en tiempo real en materia.html (mientras el usuario escribe).
 //   2. GUARDAR la materia en un array persistido en localStorage.
 //   3. MOSTRAR las materias guardadas como tarjetas en menu.html.
+//   4. MOSTRAR el nombre en la vista materia-creada.html.
 //
-// Cómo se guarda la información:
-//   - En el navegador existe "localStorage", una memoria que sobrevive aunque
-//     cambies de página o cierres y abras el navegador.
-//   - En localStorage solo se pueden guardar TEXTOS, por eso para guardar un
-//     array se convierte con JSON.stringify (objeto/array -> texto) y al leerlo
-//     se convierte de vuelta con JSON.parse (texto -> array).
-//   - La clave usada es 'focusClassMaterias' y el formato es:
+// Cómo se guarda la información (para no romper las funciones de materias.js,
+// nueva-tarea.js y nuevo-examen.js que bajamos del repositorio):
+//   - La clave 'focusClassMaterias' guarda SOLO los NOMBRES como strings:
+//       [ "Matemáticas", "Física", ... ]
+//     Ese es el formato que esperan las funciones compartidas (materias.js usa
+//     esta clave para llenar el select de materia en tareas/exámenes).
+//   - Los detalles (docente y descripción) se guardan en una clave aparte
+//     'focusClassMateriasDetalles' con el formato:
 //       [ { materia: "...", docente: "...", descripcion: "..." }, ... ]
+//     Así la vista previa y las tarjetas del menú tienen datos extra.
+//
+// En localStorage solo se pueden guardar TEXTOS, por eso se convierte con
+// JSON.stringify (objeto/array -> texto) y al leerlo se convierte de vuelta
+// con JSON.parse (texto -> array).
 //
 // La imagen de fondo de TODAS las materias nuevas es la misma:
 //   assets/img/imagen-generica.png (se ignora la sección de iconos y colores).
@@ -22,44 +29,69 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================================================
-    // 1. CONFIGURACIÓN Y FUNCIONES BASE PARA LEER/ESCRIBIR EL ARRAY
+    // 1. CONFIGURACIÓN Y FUNCIONES BASE PARA LEER/ESCRIBIR LOS ARRAYS
     // ==========================================================================
-    // Clave con la que se identifica el array dentro de localStorage
+    // Clave con los NOMBRES de las materias (la usan las funciones compartidas)
     const STORAGE_KEY = 'focusClassMaterias';
+    // Clave con los DETALLES completos (docente y descripción)
+    const DETAILS_KEY = 'focusClassMateriasDetalles';
 
     // Ruta de la imagen genérica que se usa como fondo de todas las materias
     // (desde las páginas de la carpeta /html se sube un nivel con ../)
     const IMAGEN_GENERICA = '../assets/img/imagen-generica.png';
 
-    // Lee el array de materias desde localStorage y lo normaliza a objetos.
-    // Compatible con dos formatos que pueden existir en la misma clave:
-    //   - strings:  ["Matemáticas"]                    (formato anterior de materias.js)
-    //   - objetos:  [{ materia, docente, descripcion }] (formato que guarda este archivo)
+    // Lee los nombres (strings) de las materias guardadas.
     // try/catch: si el texto guardado está dañado, devuelve un array vacío
     // en lugar de romper toda la página con un error.
-    function cargarMaterias() {
+    function cargarNombres() {
         try {
             const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-            if (!Array.isArray(data)) return [];
-
-            return data.map((item) => {
-                if (typeof item === 'string') {
-                    return { materia: item, docente: '', descripcion: '' };
-                }
-                if (item && typeof item.materia === 'string') {
-                    return item;
-                }
-                return null;
-            }).filter((item) => item !== null);
+            return Array.isArray(data)
+                ? data.filter((item) => typeof item === 'string')
+                : [];
         } catch (e) {
             return [];
         }
     }
 
-    // Sobrescribe en localStorage el array completo de materias.
+    // Lee los detalles completos (objetos) de las materias.
+    function cargarDetalles() {
+        try {
+            const data = JSON.parse(localStorage.getItem(DETAILS_KEY)) || [];
+            return Array.isArray(data) ? data : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    // Devuelve las materias como objetos { materia, docente, descripcion }.
+    // Junta los nombres (strings) con los detalles guardados por separado.
+    // Los nombres que no tengan detalles se completan con campos vacíos.
+    function cargarMaterias() {
+        const nombres = cargarNombres();
+        const detalles = cargarDetalles();
+
+        const detallePorNombre = {};
+        detalles.forEach((detalle) => {
+            if (detalle && typeof detalle.materia === 'string') {
+                detallePorNombre[detalle.materia] = detalle;
+            }
+        });
+
+        return nombres.map((nombre) => (
+            detallePorNombre[nombre] || { materia: nombre, docente: '', descripcion: '' }
+        ));
+    }
+
+    // Sobrescribe en localStorage el array de nombres (strings).
     // JSON.stringify convierte el array en un texto plano para poder guardarlo.
-    function guardarMaterias(materias) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(materias));
+    function guardarNombres(nombres) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(nombres));
+    }
+
+    // Sobrescribe en localStorage el array de detalles completos.
+    function guardarDetalles(detalles) {
+        localStorage.setItem(DETAILS_KEY, JSON.stringify(detalles));
     }
 
     // ==========================================================================
@@ -148,11 +180,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; // return detiene la ejecución de la función aquí
             }
 
-            // Se lee el array actual, se agrega el nuevo objeto con .push()
-            // (que añade un elemento AL FINAL del array) y se vuelve a guardar.
-            const materias = cargarMaterias();
-            materias.push({ materia, docente, descripcion });
-            guardarMaterias(materias);
+            // Se leen los arrays actuales, se agrega la materia nueva y se
+            // vuelven a guardar. Los NOMBRES se guardan como strings en
+            // 'focusClassMaterias' (formato que usan materias.js, nueva-tarea.js
+            // y nuevo-examen.js) y los DETALLES en 'focusClassMateriasDetalles'.
+            const nombres = cargarNombres();
+            if (!nombres.includes(materia)) {
+                nombres.push(materia);
+                guardarNombres(nombres);
+            }
+
+            const detalles = cargarDetalles();
+            if (!detalles.some((detalle) => detalle.materia === materia)) {
+                detalles.push({ materia, docente, descripcion });
+                guardarDetalles(detalles);
+            }
 
             alert('Materia guardada correctamente.');
             // Redirección a la página de inicio donde se muestra la grilla

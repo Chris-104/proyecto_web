@@ -182,18 +182,11 @@ function renderTasksMateriaPage() {
             addBtn.href = 'nueva-tarea.html?materia=' + encodeURIComponent(materia);
         }
 
-        cardList.querySelectorAll('.card, .empty-state').forEach((el) => el.remove());
+        cardList.querySelectorAll('.card').forEach((card) => card.remove());
 
         const tareas = getTasks().filter((tarea) => tarea.materia === materia);
 
-        if (tareas.length === 0) {
-            const empty = document.createElement('p');
-            empty.className = 'empty-state';
-            empty.textContent = 'Aún no hay tareas para esta materia.';
-            cardList.appendChild(empty);
-        } else {
-            tareas.forEach((tarea) => cardList.appendChild(crearCardTarea(tarea)));
-        }
+        tareas.forEach((tarea) => cardList.appendChild(crearCardTarea(tarea)));
 
         if (badge) {
             badge.textContent = tareas.length + (tareas.length === 1 ? ' pendiente' : ' pendientes');

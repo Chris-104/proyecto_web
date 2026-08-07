@@ -13,15 +13,7 @@ const DEFAULT_MATERIAS = [
 function getMateriasGuardadas() {
     try {
         const data = JSON.parse(localStorage.getItem(MATERIA_STORAGE_KEY) || '[]');
-        if (!Array.isArray(data)) return [];
-
-        // Normalizar el formato: puede haber strings (formato anterior) u
-        // objetos { materia, docente, descripcion } (formato de nueva-materia.js).
-        return data.map((item) => {
-            if (typeof item === 'string') return item;
-            if (item && typeof item.materia === 'string') return item.materia;
-            return null;
-        }).filter((nombre) => nombre);
+        return Array.isArray(data) ? data : [];
     } catch (e) {
         return [];
     }
@@ -44,28 +36,43 @@ function getMateriaActual() {
     const h1 = document.querySelector('.banner-text h1');
     if (!h1) return null;
     const texto = h1.textContent.trim().toLowerCase();
-
-    // 1. Coincidir con las materias por defecto (por palabras clave)
     for (const materia of DEFAULT_MATERIAS) {
         if (materia.claves.some((clave) => texto.includes(clave))) {
             return materia.nombre;
         }
     }
-
-    // 2. Coincidir con las materias creadas por el usuario (por su nombre exacto)
-    const encontrada = getTodasLasMaterias().find((nombre) => nombre.toLowerCase() === texto);
-    return encontrada || null;
+    return null;
 }
 
 // ==========================================================================
-// GUARDADO DE MATERIA (materia.html)
-// NOTA: el formulario de materia.html lo maneja nueva-materia.js (guarda el
-// objeto completo { materia, docente, descripcion }). Este archivo solo
-// provee helpers de lectura compatibles con ambos formatos.
+// GUARDAR NUEVA MATERIA (materia.html)
 // ==========================================================================
+function setupMateriaForm() {
+    const saveBtn = document.querySelector('.btn-save');
+    if (!saveBtn) return;
+
+    saveBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const nameInput = document.querySelector('.form-section .form-group input');
+        const name = nameInput ? nameInput.value.trim() : '';
+
+        if (!name) {
+            alert('Escribe el nombre de la materia.');
+            return;
+        }
+
+        const materias = getMateriasGuardadas();
+        if (!materias.includes(name)) {
+            materias.push(name);
+            localStorage.setItem(MATERIA_STORAGE_KEY, JSON.stringify(materias));
+        }
+
+        alert('Materia guardada correctamente.');
+        window.location.href = 'menu.html';
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Sin acciones adicionales: solo helpers (getMateriasGuardadas,
-    // getTodasLasMaterias, getMateriaActual) usados por nueva-tarea.js,
-    // nuevo-examen.js y nueva-materia.js.
+    setupMateriaForm();
 });
