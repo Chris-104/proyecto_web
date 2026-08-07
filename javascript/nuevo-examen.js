@@ -1,13 +1,15 @@
+// ==========================================================================
+// MATERIAS: por defecto + agregadas (ver materias.js)
+// getTodasLasMaterias() y getMateriaActual() vienen de materias.js
+// ==========================================================================
+
+// ==========================================================================
+// EXÁMENES (AGREGAR Y MOSTRAR) VÍA localStorage
+// ==========================================================================
 const EXAM_STORAGE_KEY = 'focusClassExams';
 
 function getExams() {
     return JSON.parse(localStorage.getItem(EXAM_STORAGE_KEY) || '[]');
-}
-
-function saveExam(exam) {
-    const exams = getExams();
-    exams.push(exam);
-    localStorage.setItem(EXAM_STORAGE_KEY, JSON.stringify(exams));
 }
 
 function formatDate(value) {
@@ -20,6 +22,52 @@ function getStatusClass(priority) {
     if (priority === 'baja') return 'green';
     if (priority === 'media') return 'orange';
     return 'red';
+}
+
+// ==========================================================================
+// SELECTOR DE MATERIA (nuevo-examen.html)
+// ==========================================================================
+function crearSelectMateria(id, className, preseleccion) {
+    const select = document.createElement('select');
+    select.id = id;
+    select.className = className;
+    select.required = true;
+
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = 'Selecciona una materia';
+    select.appendChild(placeholder);
+
+    getTodasLasMaterias().forEach((nombre) => {
+        const opcion = document.createElement('option');
+        opcion.value = nombre;
+        opcion.textContent = nombre;
+        select.appendChild(opcion);
+    });
+
+    if (preseleccion) select.value = preseleccion;
+    return select;
+}
+
+function setupExamMateriaSelect() {
+    const form = document.querySelector('.custom-form');
+    if (!form) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const preseleccion = params.get('materia');
+
+    const field = document.createElement('div');
+    field.className = 'form-group';
+
+    const label = document.createElement('label');
+    label.htmlFor = 'exam-materia';
+    label.textContent = 'Materia';
+
+    const select = crearSelectMateria('exam-materia', 'form-select', preseleccion);
+
+    field.appendChild(label);
+    field.appendChild(select);
+    form.insertBefore(field, form.firstChild);
 }
 
 // ==========================================================================
@@ -36,19 +84,112 @@ function handleExamForm() {
         const descInput = document.getElementById('exam-desc');
         const dateInput = document.getElementById('exam-date');
         const prioritySelect = document.getElementById('exam-priority');
+        const materiaSelect = document.getElementById('exam-materia');
 
         const name = nameInput ? nameInput.value.trim() : '';
         const desc = descInput ? descInput.value.trim() : '';
         const examDate = dateInput ? dateInput.value : '';
         const priority = prioritySelect ? prioritySelect.value : 'media';
+        const materia = materiaSelect ? materiaSelect.value : '';
 
-        if (!name) return;
+        if (!name || !materia) return;
 
-        saveExam({ name, desc, examDate, priority });
+        const exams = getExams();
+        exams.push({ name, desc, examDate, priority, materia });
+        localStorage.setItem(EXAM_STORAGE_KEY, JSON.stringify(exams));
 
         if (examForm.reset) examForm.reset();
         alert('Examen guardado correctamente.');
         window.location.href = 'menu.html';
+    });
+}
+
+// ==========================================================================
+// TARJETA DE EXAMEN PARA PÁGINAS DE MATERIA
+// ==========================================================================
+function crearCardExamen(exam) {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    const left = document.createElement('div');
+    left.className = 'card-left';
+
+    const icon = document.createElement('span');
+    icon.className = 'card-icon-brain';
+    icon.textContent = '🧠';
+
+    const info = document.createElement('div');
+    info.className = 'card-info';
+
+    const h3 = document.createElement('h3');
+    h3.textContent = exam.name || 'Examen';
+
+    const p = document.createElement('p');
+    p.textContent = exam.desc || 'Sin descripción';
+
+    info.appendChild(h3);
+    info.appendChild(p);
+
+    left.appendChild(icon);
+    left.appendChild(info);
+
+    const right = document.createElement('div');
+    right.className = 'card-right';
+
+    const dateBox = document.createElement('div');
+    dateBox.className = 'card-date';
+
+    const span = document.createElement('span');
+    span.textContent = '📅 ' + formatDate(exam.examDate);
+
+    const small = document.createElement('small');
+    small.textContent = 'Fecha de realización';
+
+    dateBox.appendChild(span);
+    dateBox.appendChild(small);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'card-arrow';
+    arrow.textContent = '>';
+
+    right.appendChild(dateBox);
+    right.appendChild(arrow);
+
+    card.appendChild(left);
+    card.appendChild(right);
+    return card;
+}
+
+// ==========================================================================
+// RENDERIZAR EXÁMENES DE LA MATERIA EN SU PÁGINA
+// ==========================================================================
+function renderExamsMateriaPage() {
+    const materia = getMateriaActual();
+    if (!materia) return;
+
+    const panels = document.querySelectorAll('.panel');
+    panels.forEach((panel) => {
+        const heading = panel.querySelector('.panel-header h2');
+        if (!heading || !heading.textContent.toLowerCase().includes('exámenes')) return;
+
+        const cardList = panel.querySelector('.card-list');
+        const badge = panel.querySelector('.badge');
+        const addBtn = panel.querySelector('a.btn-add');
+        if (!cardList) return;
+
+        if (addBtn && addBtn.getAttribute('href')) {
+            addBtn.href = 'nuevo-examen.html?materia=' + encodeURIComponent(materia);
+        }
+
+        cardList.querySelectorAll('.card').forEach((card) => card.remove());
+
+        const examenes = getExams().filter((examen) => examen.materia === materia);
+
+        examenes.forEach((examen) => cardList.appendChild(crearCardExamen(examen)));
+
+        if (badge) {
+            badge.textContent = examenes.length + (examenes.length === 1 ? ' próximo' : ' próximos');
+        }
     });
 }
 
@@ -75,7 +216,7 @@ function renderExamList() {
     header.className = 'pending-header';
 
     const headerTitle = document.createElement('h2');
-    headerTitle.innerHTML = '<i class="fa-regular fa-file-lines"></i> Próximos exámenes';
+    headerTitle.innerHTML = '<i class="fa-regular fa-file-lines"></i> Próximo examen';
 
     const seeAll = document.createElement('a');
     seeAll.className = 'see-all';
@@ -99,10 +240,10 @@ function renderExamList() {
         info.className = 'task-info';
 
         const infoTitle = document.createElement('h4');
-        infoTitle.textContent = exam.name || 'Examen';
+        infoTitle.textContent = exam.materia || 'General';
 
         const infoText = document.createElement('p');
-        infoText.textContent = exam.desc || 'Sin descripción';
+        infoText.textContent = exam.name || 'Examen';
 
         info.appendChild(infoTitle);
         info.appendChild(infoText);
@@ -186,7 +327,9 @@ function renderExamMetric() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    setupExamMateriaSelect();
     handleExamForm();
+    renderExamsMateriaPage();
     renderExamList();
     renderExamMetric();
 });

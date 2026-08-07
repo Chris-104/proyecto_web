@@ -31,12 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // (desde las páginas de la carpeta /html se sube un nivel con ../)
     const IMAGEN_GENERICA = '../assets/img/imagen-generica.png';
 
-    // Lee el array de materias desde localStorage.
+    // Lee el array de materias desde localStorage y lo normaliza a objetos.
+    // Compatible con dos formatos que pueden existir en la misma clave:
+    //   - strings:  ["Matemáticas"]                    (formato anterior de materias.js)
+    //   - objetos:  [{ materia, docente, descripcion }] (formato que guarda este archivo)
     // try/catch: si el texto guardado está dañado, devuelve un array vacío
     // en lugar de romper toda la página con un error.
     function cargarMaterias() {
         try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+            if (!Array.isArray(data)) return [];
+
+            return data.map((item) => {
+                if (typeof item === 'string') {
+                    return { materia: item, docente: '', descripcion: '' };
+                }
+                if (item && typeof item.materia === 'string') {
+                    return item;
+                }
+                return null;
+            }).filter((item) => item !== null);
         } catch (e) {
             return [];
         }
