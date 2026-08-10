@@ -16,10 +16,10 @@
   <script src="../javascript/nueva-materia.js" defer></script>
   <script src="../javascript/nuevo-examen.js" defer></script>
   <script src="../javascript/context-menu.js" defer></script>
+  <script src="../javascript/examentarea.js" defer></script>
 </head>
 <body>
 
-    <!-- Menú Desplegable Lateral (Sidebar Overlay) -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <button class="close-btn" id="closeSidebarBtn" aria-label="Cerrar menú">
@@ -68,10 +68,8 @@
         </nav>
     </aside>
 
-    <!-- Overlay oscuro al abrir el menú -->
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-    <!-- Barra de Navegación Superior (Header) -->
     <header class="navbar">
         <div class="nav-left">
             <button class="menu-btn" id="openSidebarBtn" aria-label="Abrir menú">
@@ -161,72 +159,151 @@
           <a href="materia.html" class="btn btn-primary" style="text-decoration:none; display:inline-block;">+ Crear clase</a>
         </div>
 
-        
       </div>
     </section>
 
-    <aside class="sidebar-section">
+   <aside class="sidebar-section">
+      
       <div class="pending-box">
         <div class="pending-header">
           <h2><i class="fa-regular fa-clipboard"></i> Tareas pendientes</h2>
-          <a href="#" class="see-all">Ver todas</a>
+          <a href="#" class="see-all" id="linkVerTodasTareas">Ver todas</a>
         </div>
 
         <div class="tasks-list">
-          
-          <div class="task-item">
-            <span class="status-indicator red"></span>
-            <div class="task-info">
-              <h4>Matemáticas</h4>
-              <p>Resolver guía 3</p>
-            </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
-            </div>
-          </div>
-
-          <div class="task-item">
-            <span class="status-indicator red"></span>
-            <div class="task-info">
-              <h4>Ciencia</h4>
-              <p>Resolver quiz 3</p>
-            </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
-            </div>
-          </div>
-
-          <div class="task-item">
-            <span class="status-indicator green"></span>
-            <div class="task-info">
-              <h4>Inglés</h4>
-              <p>Resolver guía 2</p>
-            </div>
-            <div class="task-date">
-              <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
-            </div>
-          </div>
-
           <div class="task-item">
             <span class="status-indicator orange"></span>
             <div class="task-info">
               <h4>Matemáticas</h4>
-              <p>Resolver guía 3</p>
+              <p>Módulo de ejercicios</p>
             </div>
             <div class="task-date">
               <span>Fecha de entrega:</span>
-              <strong class="text-red">24/05/2025</strong>
+              <strong class="text-red">10/08/2026</strong>
             </div>
           </div>
-
         </div>
 
-        <button class="btn btn-primary btn-block">Ver todas las tareas</button>
+        <button class="btn btn-primary btn-block" id="btnVerTodasTareas">Ver todas las tareas</button>
       </div>
+
+      <div class="pending-box" style="margin-top: 20px;">
+        <div class="pending-header">
+          <h2><i class="fa-solid fa-file-pen"></i> Próximo examen</h2>
+          <a href="#" class="see-all" id="linkVerTodosExamenes">Ver todos</a>
+        </div>
+
+        <div class="tasks-list">
+          <div class="task-item">
+            <span class="status-indicator red"></span>
+            <div class="task-info">
+              <h4>Historia</h4>
+              <p>Prueba final</p>
+            </div>
+            <div class="task-date">
+              <span>Fecha del examen:</span>
+              <strong class="text-red">12/08/2026</strong>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="btnVerTodosExamenes">Ver todos los exámenes</button>
+      </div>
+
     </aside>
+
+    <div class="modal-overlay" id="modalTareas">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2><i class="fa-regular fa-clipboard"></i> Todas las Tareas Pendientes</h2>
+          <button class="modal-close" id="closeTareasBtn" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="tasks-list">
+            
+            <div class="task-item">
+              <span class="status-indicator orange"></span>
+              <div class="task-info">
+                <h4>Matemáticas</h4>
+                <p>Módulo de ejercicios</p>
+              </div>
+              <div class="task-date">
+                <span>Fecha de entrega:</span>
+                <strong class="text-red">10/08/2026</strong>
+              </div>
+              <button class="delete-btn" title="Borrar tarea"><i class="fa-solid fa-trash"></i></button>
+            </div>
+
+            <div class="task-item">
+              <span class="status-indicator red"></span>
+              <div class="task-info">
+                <h4>Ciencias</h4>
+                <p>Guía de laboratorio #2</p>
+              </div>
+              <div class="task-date">
+                <span>Fecha de entrega:</span>
+                <strong class="text-red">15/08/2026</strong>
+              </div>
+              <button class="delete-btn" title="Borrar tarea"><i class="fa-solid fa-trash"></i></button>
+            </div>
+
+            <div class="task-item">
+              <span class="status-indicator green"></span>
+              <div class="task-info">
+                <h4>Inglés</h4>
+                <p>Ejercicio de comprensión lectora</p>
+              </div>
+              <div class="task-date">
+                <span>Fecha de entrega:</span>
+                <strong class="text-red">18/08/2026</strong>
+              </div>
+              <button class="delete-btn" title="Borrar tarea"><i class="fa-solid fa-trash"></i></button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modalExamenes">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2><i class="fa-solid fa-file-pen"></i> Todos los Próximos Exámenes</h2>
+          <button class="modal-close" id="closeExamenesBtn" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+          <div class="tasks-list">
+
+            <div class="task-item">
+              <span class="status-indicator red"></span>
+              <div class="task-info">
+                <h4>Historia</h4>
+                <p>Prueba final</p>
+              </div>
+              <div class="task-date">
+                <span>Fecha del examen:</span>
+                <strong class="text-red">12/08/2026</strong>
+              </div>
+              <button class="delete-btn" title="Borrar examen"><i class="fa-solid fa-trash"></i></button>
+            </div>
+
+            <div class="task-item">
+              <span class="status-indicator orange"></span>
+              <div class="task-info">
+                <h4>Lenguaje</h4>
+                <p>Examen de literatura contemporánea</p>
+              </div>
+              <div class="task-date">
+                <span>Fecha del examen:</span>
+                <strong class="text-red">20/08/2026</strong>
+              </div>
+              <button class="delete-btn" title="Borrar examen"><i class="fa-solid fa-trash"></i></button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </main>
 
