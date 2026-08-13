@@ -224,9 +224,17 @@ function renderExamsMateriaPage() {
             addBtn.href = 'nuevo-examen.html?materia=' + encodeURIComponent(materia);
         }
 
-        cardList.querySelectorAll('.card').forEach((card) => card.remove());
+        cardList.querySelectorAll('.card, .empty-state').forEach((card) => card.remove());
 
         const examenes = getExams().filter((examen) => examen.materia === materia);
+
+        // Si no hay exámenes se muestra de nuevo el mensaje de vacío.
+        if (examenes.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'empty-state';
+            empty.textContent = 'Aún no hay exámenes para esta materia.';
+            cardList.appendChild(empty);
+        }
 
         examenes.forEach((examen) => cardList.appendChild(crearCardExamen(examen)));
 

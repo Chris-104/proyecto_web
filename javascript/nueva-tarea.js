@@ -300,11 +300,19 @@ function renderTasksMateriaPage() {
             addBtn.href = 'nueva-tarea.html?materia=' + encodeURIComponent(materia);
         }
 
-        cardList.querySelectorAll('.card, .card-list--separator').forEach((card) => card.remove());
+        cardList.querySelectorAll('.card, .card-list--separator, .empty-state').forEach((card) => card.remove());
 
         const tareas = getTasks().filter((tarea) => tarea.materia === materia);
         const pendientes = tareas.filter((tarea) => !tarea.done).sort(compararTareas);
         const completadas = tareas.filter((tarea) => tarea.done);
+
+        // Si no hay tareas se muestra de nuevo el mensaje de vacío.
+        if (tareas.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'empty-state';
+            empty.textContent = 'Aún no hay tareas para esta materia.';
+            cardList.appendChild(empty);
+        }
 
         // Pendientes primero (ordenadas por fecha) y después las completadas,
         // separadas por un rótulo para que la lista se vea ordenada.
