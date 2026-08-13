@@ -32,6 +32,9 @@ body {
   background-color: var(--bg-color);
   color: var(--text-dark);
   overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 body.sidebar-open {
@@ -291,6 +294,8 @@ body.sidebar-open {
   max-width: 1300px;
   margin: 25px auto;
   padding: 0 20px;
+  flex: 1; /* Se expande para ocupar el alto disponible y pegar el footer abajo */
+  width: 100%;
   transition: transform 0.3s ease;
 }
 

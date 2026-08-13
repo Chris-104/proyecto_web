@@ -31,6 +31,9 @@
 body {
   background-color: var(--bg-color);
   color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ==========================================================================
@@ -248,7 +251,8 @@ body {
   max-width: 1400px ;
   margin: 24px auto;
   padding: 0 20px;
- 
+  flex: 1; /* Se expande para ocupar el alto disponible y pegar el footer abajo */
+  width: 100%;
 }
 
 
