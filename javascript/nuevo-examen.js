@@ -160,9 +160,47 @@ function crearCardExamen(exam) {
     right.appendChild(dateBox);
     right.appendChild(arrow);
 
+    // Botón pequeño para eliminar el examen desde la página de la materia.
+    const deleteBtn = document.createElement('button');
+    deleteBtn.type = 'button';
+    deleteBtn.className = 'card-delete-btn';
+    deleteBtn.title = 'Eliminar examen';
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    right.appendChild(deleteBtn);
+
+    deleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        borrarExamenDeTarjeta(card);
+    });
+
     card.appendChild(left);
     card.appendChild(right);
     return card;
+}
+
+// Borra un examen desde su tarjeta en la página de la materia.
+function borrarExamenDeTarjeta(card) {
+    const panel = card.closest('.panel');
+    if (!panel) return;
+    const cardList = panel.querySelector('.card-list');
+    if (!cardList) return;
+
+    const cards = Array.from(cardList.querySelectorAll('.card'));
+    const indice = cards.indexOf(card);
+    if (indice < 0) return;
+
+    const exams = getExams();
+    const materia = getMateriaActual();
+    const deEstaMateria = exams.filter((examen) => examen.materia === materia);
+    const objetivo = deEstaMateria[indice];
+    if (!objetivo) return;
+
+    if (!confirm('¿Eliminar este examen?')) return;
+
+    localStorage.setItem(EXAM_STORAGE_KEY, JSON.stringify(exams.filter((examen) => examen !== objetivo)));
+    renderExamsMateriaPage();
+    if (typeof renderExamMetric === 'function') renderExamMetric();
 }
 
 // ==========================================================================

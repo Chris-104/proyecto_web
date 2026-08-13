@@ -326,11 +326,38 @@ body {
   background-image: url('../assets/img/imagen-generica.png');
   background-size: cover;
   background-position: center;
+  position: relative;
 }
 .banner-materia .banner-text h1,
 .banner-materia .banner-text p {
   color: #ffffff !important;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+/* Botón para eliminar la materia creada desde su banner */
+.banner-delete-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  z-index: 5;
+}
+
+.banner-delete-btn:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+  transform: scale(1.1);
 }
 
 /* Mensaje mostrado cuando un panel no tiene tareas/exámenes todavía */
@@ -481,6 +508,29 @@ body {
   color: #94a3b8;
   font-size: 14px;
   cursor: pointer;
+}
+
+/* Botón pequeño para eliminar tarea/examen en las tarjetas de las páginas de materia */
+.card-delete-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #dc2626;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.card-delete-btn:hover {
+  background-color: #dc2626;
+  color: #ffffff;
+  transform: scale(1.1);
 }
 
 /* ==========================================================================

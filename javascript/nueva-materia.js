@@ -405,9 +405,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Se aplican el logo y el color elegidos al banner de la materia.
             const detalle = cargarDetalles().find((d) => d && d.materia === nombreParam);
-            if (detalle) {
-                const banner = document.querySelector('.banner-materia');
-                if (banner) {
+            const banner = document.querySelector('.banner-materia');
+            if (banner) {
+                if (detalle) {
                     // Color como pequeño margen/borde del banner.
                     if (detalle.color) {
                         banner.style.border = '3px solid ' + detalle.color;
@@ -420,6 +420,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
+
+                // Botón pequeño para eliminar la materia creada desde su banner.
+                const deleteMateriaBtn = document.createElement('button');
+                deleteMateriaBtn.type = 'button';
+                deleteMateriaBtn.className = 'banner-delete-btn';
+                deleteMateriaBtn.title = 'Eliminar materia';
+                deleteMateriaBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                banner.appendChild(deleteMateriaBtn);
+
+                deleteMateriaBtn.addEventListener('click', () => {
+                    eliminarMateriaBorrada(nombreParam, null);
+                    window.location.href = 'menu.html';
+                });
             }
         }
     }

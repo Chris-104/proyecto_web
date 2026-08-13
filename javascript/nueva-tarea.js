@@ -161,9 +161,47 @@ function crearCardTarea(task) {
     right.appendChild(dateBox);
     right.appendChild(arrow);
 
+    // Botón pequeño para eliminar la tarea desde la página de la materia.
+    const deleteBtn = document.createElement('button');
+    deleteBtn.type = 'button';
+    deleteBtn.className = 'card-delete-btn';
+    deleteBtn.title = 'Eliminar tarea';
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    right.appendChild(deleteBtn);
+
+    deleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        borrarTareaDeTarjeta(card);
+    });
+
     card.appendChild(left);
     card.appendChild(right);
     return card;
+}
+
+// Borra una tarea desde su tarjeta en la página de la materia.
+function borrarTareaDeTarjeta(card) {
+    const panel = card.closest('.panel');
+    if (!panel) return;
+    const cardList = panel.querySelector('.card-list');
+    if (!cardList) return;
+
+    const cards = Array.from(cardList.querySelectorAll('.card'));
+    const indice = cards.indexOf(card);
+    if (indice < 0) return;
+
+    const tasks = getTasks();
+    const materia = getMateriaActual();
+    const deEstaMateria = tasks.filter((tarea) => tarea.materia === materia);
+    const objetivo = deEstaMateria[indice];
+    if (!objetivo) return;
+
+    if (!confirm('¿Eliminar esta tarea?')) return;
+
+    localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks.filter((tarea) => tarea !== objetivo)));
+    renderTasksMateriaPage();
+    if (typeof updateMetrics === 'function') updateMetrics();
 }
 
 // ==========================================================================
