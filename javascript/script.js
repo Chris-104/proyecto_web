@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Función que avanza automáticamente a la siguiente diapositiva
+    // Función que avanza automáticamente a las siguiente diapositivas//
     function siguienteSlide() {
         showSlide(currentSlide + 1);
     }
