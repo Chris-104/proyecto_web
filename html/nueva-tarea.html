@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet" href="../css/nueva-tarea.css">
+    <link rel="stylesheet" href="../css/notificaciones.css">
     <script src="../javascript/usuario.js" defer></script>
     <script src="../javascript/script.js" defer></script>
     <script src="../javascript/materias.js" defer></script>
     <script src="../javascript/nueva-tarea.js" defer></script>
+    <script src="../javascript/notificaciones.js" defer></script>
 </head>
 <body>
 
@@ -85,9 +87,18 @@
             </div>
 
             <div class="header__right">
-                <button class="header__icon-btn" aria-label="Notificaciones">
-                    <i class="fa-regular fa-bell"></i>
-                </button>
+                <div class="notification-wrap">
+                    <button class="header__icon-btn" id="notificationBtn" aria-label="Notificaciones">
+                        <i class="fa-regular fa-bell"></i>
+                    </button>
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="notification-title">Notificaciones</div>
+                        <div class="notification-empty">
+                            <i class="fa-regular fa-bell-slash"></i>
+                            <p>No hay nuevas notificaciones</p>
+                        </div>
+                    </div>
+                </div>
                 <a href="perfil.html" class="header__user-profile" style="text-decoration:none;color:inherit;">
                     <div class="header__avatar">
                         <i class="fa-regular fa-user"></i>

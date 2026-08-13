@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/materias.css">
     <link rel="stylesheet" href="/css/context-menu.css">
+    <link rel="stylesheet" href="/css/notificaciones.css">
     <script src="../javascript/usuario.js" defer></script>
     <script src="../javascript/script.js" defer></script>
     <script src="../javascript/materias.js" defer></script>
     <script src="../javascript/nueva-tarea.js" defer></script>
     <script src="../javascript/nuevo-examen.js" defer></script>
     <script src="../javascript/context-menu.js" defer></script>
+    <script src="../javascript/notificaciones.js" defer></script>
     <title>Focus Class - Ciencias</title>
 </head>
 <body>
@@ -79,9 +81,18 @@
         </div>
 
         <div class="nav-right">
-            <button class="icon-btn" aria-label="Notificaciones">
-                <i class="fa-regular fa-bell"></i>
-            </button>
+            <div class="notification-wrap">
+                <button class="icon-btn" id="notificationBtn" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-title">Notificaciones</div>
+                    <div class="notification-empty">
+                        <i class="fa-regular fa-bell-slash"></i>
+                        <p>No hay nuevas notificaciones</p>
+                    </div>
+                </div>
+            </div>
             <a href="perfil.html" class="user-menu" style="text-decoration:none;color:inherit;">
                 <div class="user-avatar-small">
                     <i class="fa-regular fa-user"></i>

@@ -1,0 +1,71 @@
+/* ==========================================================================
+   DESPLEGABLE DE NOTIFICACIONES (HEADER)
+   ========================================================================== */
+.notification-wrap {
+    position: relative;
+    display: inline-flex;
+}
+
+.notification-btn {
+    position: relative;
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 300px;
+    max-width: calc(100vw - 2rem);
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 300;
+}
+
+.notification-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.notification-title {
+    padding: 0.9rem 1.1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1d3557;
+    border-bottom: 1px solid #eef0f3;
+    background-color: #fafbfc;
+}
+
+.notification-empty {
+    padding: 2rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+}
+
+.notification-empty i {
+    font-size: 1.8rem;
+    color: #cbd5e1;
+}
+
+.notification-empty p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+@media (max-width: 480px) {
+    .notification-dropdown {
+        width: calc(100vw - 2rem);
+        right: -1rem;
+    }
+}

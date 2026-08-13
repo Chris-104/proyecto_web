@@ -473,6 +473,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Se retira la tarjeta de la grilla.
         if (card && card.parentElement) card.remove();
 
+        // Se re-renderizan las listas visibles de tareas y exámenes (menu.html)
+        // para que las de la materia eliminada desaparezcan de la vista previa
+        // sin necesidad de recargar la página.
+        if (typeof renderTasksInicio === 'function') renderTasksInicio();
+        if (typeof renderModalTareas === 'function') renderModalTareas();
+        if (typeof renderExamList === 'function') renderExamList();
+        if (typeof renderModalExamenes === 'function') renderModalExamenes();
+        if (typeof renderExamMetric === 'function') renderExamMetric();
+
         // Se actualizan los contadores de la página (si existen).
         if (typeof updateMetrics === 'function') updateMetrics();
     }

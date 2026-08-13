@@ -156,7 +156,14 @@
 
         card.remove();
 
-        // Si estamos en menu.html, se actualizan los contadores de la página
+        // Si estamos en menu.html, se re-renderizan las listas visibles de
+        // tareas y exámenes para que las de la materia eliminada desaparezcan
+        // de la vista previa sin necesidad de recargar la página.
+        if (typeof renderTasksInicio === 'function') renderTasksInicio();
+        if (typeof renderModalTareas === 'function') renderModalTareas();
+        if (typeof renderExamList === 'function') renderExamList();
+        if (typeof renderModalExamenes === 'function') renderModalExamenes();
+        if (typeof renderExamMetric === 'function') renderExamMetric();
         if (typeof updateMetrics === 'function') updateMetrics();
     }
 
