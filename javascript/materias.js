@@ -31,11 +31,34 @@ function getTodasLasMaterias() {
 }
 
 // Devuelve el nombre de la materia a la que pertenece la página actual
-// (detectado por el título de su banner) o null si no es una página de materia.
+// (detectado por el título de su banner o por el parámetro ?nombre= de la URL)
+// o null si no es una página de materia.
+// Soporta tanto las 5 materias por defecto como las materias que el usuario
+// creó, para que sus tareas y exámenes se muestren correctamente.
 function getMateriaActual() {
+    // 1) Los enlaces a las materias creadas por el usuario llegan con
+    //    ?nombre=<nombre de la materia> en la URL (materia-creada.html).
+    const nombreParam = new URLSearchParams(window.location.search).get('nombre');
+    if (nombreParam && nombreParam.trim()) {
+        return nombreParam.trim();
+    }
+
+    // 2) Materias que el usuario creó: se comparan con el título del banner
+    //    sin distinguir mayúsculas/minúsculas (las tareas guardan el nombre
+    //    exacto tal como fue digitado).
     const h1 = document.querySelector('.banner-text h1');
+    const texto = h1 ? h1.textContent.trim().toLowerCase() : '';
+
+    const guardadas = getMateriasGuardadas();
+    for (const nombre of guardadas) {
+        if (nombre && texto === nombre.trim().toLowerCase()) {
+            return nombre.trim();
+        }
+    }
+
     if (!h1) return null;
-    const texto = h1.textContent.trim().toLowerCase();
+
+    // 3) Materias por defecto (coincidencias por palabras clave).
     for (const materia of DEFAULT_MATERIAS) {
         if (materia.claves.some((clave) => texto.includes(clave))) {
             return materia.nombre;

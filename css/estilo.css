@@ -534,6 +534,52 @@ body {
     align-items: center;
 }
 
+/* --- Pestañas "Iniciar sesión" / "Crear cuenta" --- */
+.auth-tabs {
+    display: flex;
+    width: 100%;
+    background-color: #f3f4f6;
+    border-radius: 10px;
+    padding: 0.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.auth-tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0.55rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.auth-tab.active {
+    background-color: #ffffff;
+    color: var(--primary-blue);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Enlace para alternar entre crear cuenta e iniciar sesión */
+.auth-switch {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-decoration: none;
+    margin-top: 0.35rem;
+}
+
+.auth-switch:hover {
+    text-decoration: underline;
+}
+
 .login-avatar-circle {
     width: 64px;
     height: 64px;

@@ -86,33 +86,34 @@
                     <div class="form-group">
                         <label>Insertar imagen o icono</label>
                         <div class="icon-selector">
-                            <button type="button" class="icon-btn"><i class="fas fa-plus"></i></button>
-                            <button type="button" class="icon-btn"><i class="fas fa-book"></i></button>
-                            <button type="button" class="icon-btn"><i class="fas fa-building"></i></button>
-                            <button type="button" class="icon-btn"><i class="fas fa-globe"></i></button>
-                            <button type="button" class="icon-btn"><i class="fas fa-microscope"></i></button>
-                            <button type="button" class="icon-btn"><i class="fas fa-laptop"></i></button>
+                            <button type="button" class="icon-btn" data-sin-icono="true" title="Sin logo"><i class="fa-solid fa-ban"></i></button>
+                            <button type="button" class="icon-btn active" title="Libro"><i class="fas fa-book"></i></button>
+                            <button type="button" class="icon-btn" title="Edificio"><i class="fas fa-building"></i></button>
+                            <button type="button" class="icon-btn" title="Idioma"><i class="fas fa-globe"></i></button>
+                            <button type="button" class="icon-btn" title="Ciencia"><i class="fas fa-microscope"></i></button>
+                            <button type="button" class="icon-btn" title="Computadora"><i class="fas fa-laptop"></i></button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label>Seleccione un color:</label>
                         <div class="color-selector">
-                            <div class="color-circle active"></div>
-                            <div class="color-circle" style="background-color: #0056d2;"></div>
-                            <div class="color-circle" style="background-color: #8b5cf6;"></div>
-                            <div class="color-circle" style="background-color: #1f2937;"></div>
-                            <div class="color-circle" style="background-color: #10b981;"></div>
-                            <div class="color-circle" style="background-color: #8b4513;"></div>
-                            <div class="color-circle" style="background-color: #f59e0b;"></div>
-                            <div class="color-circle" style="background-color: #6366f1;"></div>
+                            <div class="color-circle color-circle--none" data-color="" title="Sin margen"></div>
+                            <div class="color-circle active" data-color="#0056d2" style="background-color: #0056d2;"></div>
+                            <div class="color-circle" data-color="#8b5cf6" style="background-color: #8b5cf6;"></div>
+                            <div class="color-circle" data-color="#1f2937" style="background-color: #1f2937;"></div>
+                            <div class="color-circle" data-color="#10b981" style="background-color: #10b981;"></div>
+                            <div class="color-circle" data-color="#8b4513" style="background-color: #8b4513;"></div>
+                            <div class="color-circle" data-color="#f59e0b" style="background-color: #f59e0b;"></div>
+                            <div class="color-circle" data-color="#6366f1" style="background-color: #6366f1;"></div>
                         </div>
                     </div>
 
                     <div class="preview-container">
                         <label>Vista Previa:</label>
-                        <div class="preview-card">
+                        <div class="preview-card" id="preview-card">
                             <div class="preview-bg"></div>
+                            <span class="preview-icon" id="preview-icon"><i class="fas fa-book"></i></span>
                             <div class="preview-overlay">
                                 <span class="preview-materia" id="preview-materia">Nombre de la materia</span>
                                 <span class="preview-docente" id="preview-docente">Prof. García</span>

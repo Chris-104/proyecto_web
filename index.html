@@ -216,14 +216,20 @@
                 </div>
             </section>
 
-            <!-- Columna Derecha: Tarjeta de Iniciar Sesión -->
+            <!-- Columna Derecha: Tarjeta de Iniciar Sesión / Crear Cuenta -->
             <section class="login-section">
                 <div class="login-card">
+
+                    <div class="auth-tabs">
+                        <button type="button" class="auth-tab active" id="tabLogin">Iniciar sesión</button>
+                        <button type="button" class="auth-tab" id="tabRegistro">Crear cuenta</button>
+                    </div>
+
                     <div class="login-avatar-circle">
                         <i class="fa-regular fa-user"></i>
                     </div>
 
-                    <form class="login-form" onsubmit="return manejarLogin(event);">
+                    <form class="login-form" id="loginForm" onsubmit="return manejarLogin(event);">
                         <div class="input-group">
                             <i class="fa-regular fa-user input-icon"></i>
                             <input type="text" id="loginUsuario" placeholder="Nombre de usuario" required>
@@ -259,6 +265,37 @@
                         </div>
 
                         <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                        <a href="#" class="auth-switch" id="linkRegistrarse">¿No tienes cuenta? Crea una nueva</a>
+                    </form>
+
+                    <form class="login-form" id="registroForm" style="display:none;" onsubmit="return manejarRegistro(event);">
+                        <div class="input-group">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" id="regUsuario" placeholder="Nombre de usuario" required>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="regContrasena" placeholder="Contraseña" required>
+                            <button type="button" class="password-toggle" aria-label="Mostrar contraseña">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="regRepetirContrasena" placeholder="Repite la contraseña" required>
+                            <button type="button" class="password-toggle" aria-label="Mostrar contraseña">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+
+                        <!-- Mensaje de error del registro -->
+                        <p id="registroMensaje" class="login-message"></p>
+
+                        <button type="submit" class="btn-primary">Crear cuenta</button>
+
+                        <a href="#" class="auth-switch" id="linkIniciarSesion">¿Ya tienes cuenta? Inicia sesión</a>
                     </form>
                 </div>
             </section>

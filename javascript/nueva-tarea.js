@@ -94,6 +94,11 @@ function handleTaskForm() {
         const materia = materiaSelect ? materiaSelect.value : '';
 
         if (!name || !materia) return;
+        if (!dueDate) {
+            alert('La fecha de entrega es obligatoria.');
+            if (dateInput) dateInput.focus();
+            return;
+        }
 
         const tasks = getTasks();
         tasks.push({ name, desc, dueDate, priority, materia });
@@ -197,53 +202,73 @@ function renderTasksMateriaPage() {
 // ==========================================================================
 // MOSTRAR TAREAS EN LA VISTA DE INICIO (menu.html)
 // ==========================================================================
+function crearTaskItem(task) {
+    const item = document.createElement('div');
+    item.className = 'task-item';
+
+    const status = document.createElement('span');
+    status.className = 'status-indicator ' + getStatusClass(task.priority);
+
+    const info = document.createElement('div');
+    info.className = 'task-info';
+
+    const infoTitle = document.createElement('h4');
+    infoTitle.textContent = task.materia || 'General';
+
+    const infoText = document.createElement('p');
+    infoText.textContent = task.name || 'Tarea';
+
+    info.appendChild(infoTitle);
+    info.appendChild(infoText);
+
+    const dateBox = document.createElement('div');
+    dateBox.className = 'task-date';
+
+    const dateLabel = document.createElement('span');
+    dateLabel.textContent = 'Fecha de entrega:';
+
+    const dateValue = document.createElement('strong');
+    dateValue.className = 'text-red';
+    dateValue.textContent = formatDate(task.dueDate);
+
+    dateBox.appendChild(dateLabel);
+    dateBox.appendChild(dateValue);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.type = 'button';
+    deleteBtn.title = 'Borrar tarea';
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+    item.appendChild(status);
+    item.appendChild(info);
+    item.appendChild(dateBox);
+    item.appendChild(deleteBtn);
+
+    return item;
+}
+
+function renderListaTareas(list, tasks) {
+    if (!list) return;
+
+    list.querySelectorAll('.task-item, .empty-state').forEach((el) => el.remove());
+
+    if (tasks.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty-state';
+        empty.textContent = 'No hay tareas pendientes';
+        list.appendChild(empty);
+        return;
+    }
+
+    tasks.forEach((task) => list.appendChild(crearTaskItem(task)));
+}
+
 function renderTasksInicio() {
-    const tasksList = document.querySelector('.tasks-list');
+    const tasksList = document.querySelector('.sidebar-section .pending-box .tasks-list');
     if (!tasksList) return;
 
-    // Limpiar los items estáticos del HTML para que todo venga de localStorage
-    tasksList.querySelectorAll('.task-item').forEach((el) => el.remove());
-
-    const tasks = getTasks();
-
-    tasks.forEach((task) => {
-        const item = document.createElement('div');
-        item.className = 'task-item';
-
-        const status = document.createElement('span');
-        status.className = 'status-indicator ' + getStatusClass(task.priority);
-
-        const info = document.createElement('div');
-        info.className = 'task-info';
-
-        const infoTitle = document.createElement('h4');
-        infoTitle.textContent = task.materia || 'General';
-
-        const infoText = document.createElement('p');
-        infoText.textContent = task.name || 'Tarea';
-
-        info.appendChild(infoTitle);
-        info.appendChild(infoText);
-
-        const dateBox = document.createElement('div');
-        dateBox.className = 'task-date';
-
-        const dateLabel = document.createElement('span');
-        dateLabel.textContent = 'Fecha de entrega:';
-
-        const dateValue = document.createElement('strong');
-        dateValue.className = 'text-red';
-        dateValue.textContent = formatDate(task.dueDate);
-
-        dateBox.appendChild(dateLabel);
-        dateBox.appendChild(dateValue);
-
-        item.appendChild(status);
-        item.appendChild(info);
-        item.appendChild(dateBox);
-
-        tasksList.appendChild(item);
-    });
+    renderListaTareas(tasksList, getTasks());
 
     // Mostrar máximo 2 tareas de vista; el resto con scroll interno
     const firstItem = tasksList.querySelector('.task-item');
@@ -253,6 +278,15 @@ function renderTasksInicio() {
     tasksList.style.overflowY = 'auto';
     tasksList.style.overflowX = 'hidden';
     tasksList.style.paddingRight = '6px';
+}
+
+// ==========================================================================
+// MOSTRAR TAREAS EN LA VENTANA MODAL (menu.html)
+// ==========================================================================
+function renderModalTareas() {
+    const list = document.querySelector('#modalTareas .modal-body .tasks-list');
+    if (!list) return;
+    renderListaTareas(list, getTasks());
 }
 
 // ==========================================================================
@@ -319,5 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
     handleTaskForm();
     renderTasksMateriaPage();
     renderTasksInicio();
+    renderModalTareas();
     updateMetrics();
 });

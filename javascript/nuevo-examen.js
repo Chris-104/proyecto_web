@@ -93,6 +93,11 @@ function handleExamForm() {
         const materia = materiaSelect ? materiaSelect.value : '';
 
         if (!name || !materia) return;
+        if (!examDate) {
+            alert('La fecha del examen es obligatoria.');
+            if (dateInput) dateInput.focus();
+            return;
+        }
 
         const exams = getExams();
         exams.push({ name, desc, examDate, priority, materia });
@@ -196,16 +201,79 @@ function renderExamsMateriaPage() {
 // ==========================================================================
 // MOSTRAR EXÁMENES EN LA VISTA DE INICIO (menu.html)
 // ==========================================================================
+function crearExamItem(exam) {
+    const item = document.createElement('div');
+    item.className = 'task-item';
+
+    const status = document.createElement('span');
+    status.className = 'status-indicator ' + getStatusClass(exam.priority);
+
+    const info = document.createElement('div');
+    info.className = 'task-info';
+
+    const infoTitle = document.createElement('h4');
+    infoTitle.textContent = exam.materia || 'General';
+
+    const infoText = document.createElement('p');
+    infoText.textContent = exam.name || 'Examen';
+
+    info.appendChild(infoTitle);
+    info.appendChild(infoText);
+
+    const dateBox = document.createElement('div');
+    dateBox.className = 'task-date';
+
+    const dateLabel = document.createElement('span');
+    dateLabel.textContent = 'Fecha del examen:';
+
+    const dateValue = document.createElement('strong');
+    dateValue.className = 'text-red';
+    dateValue.textContent = formatDate(exam.examDate);
+
+    dateBox.appendChild(dateLabel);
+    dateBox.appendChild(dateValue);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.type = 'button';
+    deleteBtn.title = 'Borrar examen';
+    deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+
+    item.appendChild(status);
+    item.appendChild(info);
+    item.appendChild(dateBox);
+    item.appendChild(deleteBtn);
+
+    return item;
+}
+
+function renderListaExamenes(list, exams) {
+    if (!list) return;
+
+    list.querySelectorAll('.task-item, .empty-state').forEach((el) => el.remove());
+
+    if (exams.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty-state';
+        empty.textContent = 'No hay próximos exámenes';
+        list.appendChild(empty);
+        return;
+    }
+
+    exams.forEach((exam) => list.appendChild(crearExamItem(exam)));
+}
+
 function renderExamList() {
     const sidebarSection = document.querySelector('.sidebar-section');
     if (!sidebarSection) return;
 
     const exams = getExams();
-    if (exams.length === 0) return;
 
     const existingBox = sidebarSection.querySelector('.exam-box');
     if (existingBox) existingBox.remove();
 
+    // La caja se muestra SIEMPRE, incluso si no hay exámenes todavía.
+    // En ese caso la lista interna muestra el mensaje de "sin exámenes".
     const box = document.createElement('div');
     box.className = 'pending-box exam-box';
     box.style.width = '100%';
@@ -221,6 +289,7 @@ function renderExamList() {
     const seeAll = document.createElement('a');
     seeAll.className = 'see-all';
     seeAll.href = '#';
+    seeAll.id = 'linkVerTodosExamenes';
     seeAll.textContent = 'Ver todos';
 
     header.appendChild(headerTitle);
@@ -229,53 +298,20 @@ function renderExamList() {
     const list = document.createElement('div');
     list.className = 'tasks-list';
 
-    exams.forEach((exam) => {
-        const item = document.createElement('div');
-        item.className = 'task-item';
-
-        const status = document.createElement('span');
-        status.className = 'status-indicator ' + getStatusClass(exam.priority);
-
-        const info = document.createElement('div');
-        info.className = 'task-info';
-
-        const infoTitle = document.createElement('h4');
-        infoTitle.textContent = exam.materia || 'General';
-
-        const infoText = document.createElement('p');
-        infoText.textContent = exam.name || 'Examen';
-
-        info.appendChild(infoTitle);
-        info.appendChild(infoText);
-
-        const dateBox = document.createElement('div');
-        dateBox.className = 'task-date';
-
-        const dateLabel = document.createElement('span');
-        dateLabel.textContent = 'Fecha del examen:';
-
-        const dateValue = document.createElement('strong');
-        dateValue.className = 'text-red';
-        dateValue.textContent = formatDate(exam.examDate);
-
-        dateBox.appendChild(dateLabel);
-        dateBox.appendChild(dateValue);
-
-        item.appendChild(status);
-        item.appendChild(info);
-        item.appendChild(dateBox);
-
-        list.appendChild(item);
-    });
+    renderListaExamenes(list, exams);
 
     box.appendChild(header);
     box.appendChild(list);
 
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-primary btn-block';
-    btn.type = 'button';
-    btn.textContent = 'Ver todos los exámenes';
-    box.appendChild(btn);
+    // El botón "Ver todos los exámenes" solo se muestra si ya hay exámenes.
+    if (exams.length > 0) {
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-primary btn-block';
+        btn.type = 'button';
+        btn.id = 'btnVerTodosExamenes';
+        btn.textContent = 'Ver todos los exámenes';
+        box.appendChild(btn);
+    }
 
     sidebarSection.appendChild(box);
 
@@ -287,6 +323,15 @@ function renderExamList() {
     list.style.overflowY = 'auto';
     list.style.overflowX = 'hidden';
     list.style.paddingRight = '6px';
+}
+
+// ==========================================================================
+// MOSTRAR EXÁMENES EN LA VENTANA MODAL (menu.html)
+// ==========================================================================
+function renderModalExamenes() {
+    const list = document.querySelector('#modalExamenes .modal-body .tasks-list');
+    if (!list) return;
+    renderListaExamenes(list, getExams());
 }
 
 // ==========================================================================
@@ -331,5 +376,6 @@ document.addEventListener('DOMContentLoaded', () => {
     handleExamForm();
     renderExamsMateriaPage();
     renderExamList();
+    renderModalExamenes();
     renderExamMetric();
 });

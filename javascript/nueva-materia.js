@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const STORAGE_KEY = 'focusClassMaterias';
     // Clave con los DETALLES completos (docente y descripción)
     const DETAILS_KEY = 'focusClassMateriasDetalles';
+    // Claves usadas solo al eliminar una materia (también borran sus tareas/exámenes)
+    const TASKS_STORAGE_KEY = 'focusClassTasks';
+    const EXAMS_STORAGE_KEY = 'focusClassExams';
 
     // Ruta de la imagen genérica que se usa como fondo de todas las materias
     // (desde las páginas de la carpeta /html se sube un nivel con ../)
@@ -108,6 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewMateria = document.getElementById('preview-materia'); // span del nombre en la preview
     const previewDocente = document.getElementById('preview-docente'); // span del docente en la preview
     const previewDesc = document.getElementById('preview-desc');       // p de descripción en la preview
+    const previewCard = document.getElementById('preview-card');       // tarjeta de la vista previa
+    const previewIcono = document.getElementById('preview-icon');      // icono/logo en la vista previa
+
+    // Icono (logo) y color que el usuario eligió en la sección de personalización.
+    let iconoSeleccionado = '';
+    let colorSeleccionado = '#0056d2';
 
     // Copia lo que el usuario escribe en los campos hacia la tarjeta de vista
     // previa. Si el campo está vacío, muestra un texto de ejemplo.
@@ -128,6 +137,20 @@ document.addEventListener('DOMContentLoaded', () => {
             previewDesc.textContent = descInput && descInput.value.trim()
                 ? descInput.value.trim()
                 : 'Breve descripción de la materia';
+        }
+        // El color elegido se aplica como un pequeño margen/borde en la tarjeta.
+        // Si no se eligió color, la tarjeta queda con su borde normal.
+        if (previewCard) {
+            previewCard.style.border = colorSeleccionado
+                ? '3px solid ' + colorSeleccionado
+                : '1px solid #e0e4eb';
+        }
+        // El logo elegido se muestra en la esquina superior derecha de la preview.
+        // Si se eligió "sin logo", la preview queda sin icono.
+        if (previewIcono) {
+            previewIcono.innerHTML = iconoSeleccionado
+                ? '<i class="' + iconoSeleccionado + '"></i>'
+                : '';
         }
     }
 
@@ -161,6 +184,51 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarContador();
 
     // ==========================================================================
+    // 2.1 SELECCIÓN DEL LOGO (icono) Y DEL COLOR (materia.html)
+    // ==========================================================================
+    const iconoBtns = document.querySelectorAll('.icon-selector .icon-btn');
+    const colorCircles = document.querySelectorAll('.color-selector .color-circle');
+
+    // Marca el logo elegido (se ilumina su botón) y refresca la vista previa.
+    // El botón con data-sin-icono representa "sin logo" y guarda un valor vacío.
+    function seleccionarIcono(btn) {
+        iconoBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const icono = btn.querySelector('i');
+        iconoSeleccionado = btn.hasAttribute('data-sin-icono')
+            ? ''
+            : (icono ? icono.className : '');
+        actualizarVistaPrevia();
+    }
+
+    iconoBtns.forEach((btn) => {
+        btn.addEventListener('click', () => seleccionarIcono(btn));
+    });
+
+    // Marca el color elegido (anillo rosa) y refresca la vista previa.
+    // El círculo con data-color vacío representa "sin margen".
+    function seleccionarColor(circle) {
+        colorCircles.forEach((c) => c.classList.remove('active'));
+        circle.classList.add('active');
+        colorSeleccionado = circle.getAttribute('data-color') || '';
+        actualizarVistaPrevia();
+    }
+
+    colorCircles.forEach((circle) => {
+        circle.addEventListener('click', () => seleccionarColor(circle));
+    });
+
+    // Al cargar la página se toman los que ya vienen marcados en el HTML
+    // (primer logo "libro" y primer color azul), para que la preview los use.
+    // Solo se hace en materia.html, donde esos elementos existen.
+    if (iconoBtns.length > 0) {
+        seleccionarIcono(document.querySelector('.icon-selector .icon-btn.active') || iconoBtns[0]);
+    }
+    if (colorCircles.length > 0) {
+        seleccionarColor(document.querySelector('.color-selector .color-circle.active') || colorCircles[0]);
+    }
+
+    // ==========================================================================
     // 3. GUARDAR UNA NUEVA MATERIA (materia.html)
     // ==========================================================================
     // Botón "Guardar materia" con su id del HTML
@@ -192,7 +260,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const detalles = cargarDetalles();
             if (!detalles.some((detalle) => detalle.materia === materia)) {
-                detalles.push({ materia, docente, descripcion });
+                detalles.push({
+                    materia,
+                    docente,
+                    descripcion,
+                    icono: iconoSeleccionado,
+                    color: colorSeleccionado
+                });
                 guardarDetalles(detalles);
             }
 
@@ -275,7 +349,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 content.appendChild(desc);
                 card.appendChild(content);
 
-                // 4.4 Se coloca la tarjeta en la grilla, justo antes de
+                // 4.4 Logo elegido por el usuario: se coloca en la esquina
+                // superior izquierda de la tarjeta (si dejó uno seleccionado).
+                if (m.icono) {
+                    const icono = document.createElement('i');
+                    icono.className = m.icono;
+                    icono.classList.add('card-new-icon');
+                    card.appendChild(icono);
+                }
+
+                // 4.5 Color elegido por el usuario: se aplica como un pequeño
+                // margen/borde de la tarjeta (no como fondo completo).
+                if (m.color) {
+                    card.style.border = '3px solid ' + m.color;
+                }
+
+                // 4.6 Botón pequeño de eliminar materia (papelera).
+                // Se evita que el clic navegue hacia la página de la materia.
+                const deleteBtn = document.createElement('button');
+                deleteBtn.type = 'button';
+                deleteBtn.className = 'card-delete-btn';
+                deleteBtn.title = 'Eliminar materia';
+                deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+                card.appendChild(deleteBtn);
+
+                deleteBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    eliminarMateriaBorrada(m.materia, card);
+                });
+
+                // 4.7 Se coloca la tarjeta en la grilla, justo antes de
                 // la tarjeta "Agregar nueva materia" (.card-add).
                 grid.insertBefore(card, cardAdd);
             });
@@ -298,6 +402,63 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nombreParam) {
             tituloMateria.textContent = nombreParam;
             document.title = 'Focus Class - ' + nombreParam;
+
+            // Se aplican el logo y el color elegidos al banner de la materia.
+            const detalle = cargarDetalles().find((d) => d && d.materia === nombreParam);
+            if (detalle) {
+                const banner = document.querySelector('.banner-materia');
+                if (banner) {
+                    // Color como pequeño margen/borde del banner.
+                    if (detalle.color) {
+                        banner.style.border = '3px solid ' + detalle.color;
+                    }
+                    // Logo/icono elegido reemplaza al emoji del banner.
+                    if (detalle.icono) {
+                        const bannerIcon = banner.querySelector('.banner-icon');
+                        if (bannerIcon) {
+                            bannerIcon.innerHTML = '<i class="' + detalle.icono + '"></i>';
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    // ==========================================================================
+    // 6. ELIMINAR UNA MATERIA CREADA DESDE SU TARJETA (menu.html)
+    //    - Borra el nombre y los detalles de localStorage.
+    //    - También borra las tareas y exámenes asociados a esa materia.
+    // ==========================================================================
+    function eliminarMateriaBorrada(nombre, card) {
+        if (!nombre) return;
+        if (!confirm('¿Eliminar la materia "' + nombre + '"? También se eliminarán sus tareas y exámenes.')) return;
+
+        // Se quita el nombre de los nombres guardados.
+        const nombres = cargarNombres().filter((n) => n !== nombre);
+        guardarNombres(nombres);
+
+        // Se quitan los detalles de esa materia.
+        const detalles = cargarDetalles().filter((d) => !d || d.materia !== nombre);
+        guardarDetalles(detalles);
+
+        // Se quitan las tareas de esa materia.
+        try {
+            const tasks = JSON.parse(localStorage.getItem(TASKS_STORAGE_KEY) || '[]')
+                .filter((t) => t.materia !== nombre);
+            localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasks));
+        } catch (e) { /* sin tareas guardadas */ }
+
+        // Se quitan los exámenes de esa materia.
+        try {
+            const exams = JSON.parse(localStorage.getItem(EXAMS_STORAGE_KEY) || '[]')
+                .filter((x) => x.materia !== nombre);
+            localStorage.setItem(EXAMS_STORAGE_KEY, JSON.stringify(exams));
+        } catch (e) { /* sin exámenes guardados */ }
+
+        // Se retira la tarjeta de la grilla.
+        if (card && card.parentElement) card.remove();
+
+        // Se actualizan los contadores de la página (si existen).
+        if (typeof updateMetrics === 'function') updateMetrics();
     }
 });

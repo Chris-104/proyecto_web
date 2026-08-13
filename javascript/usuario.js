@@ -95,9 +95,11 @@ function guardarUsuario(nombre, contrasena) {
 
 // ==========================================================================
 // 5. FUNCIÓN PARA INICIAR SESIÓN
-//    - Busca el usuario en el array con .find().
-//    - Si existe, inicia sesión con los datos del array.
-//    - Si no existe, lo guarda en el array (usuario nuevo) y entra.
+//    - Busca el usuario en el array con .find() y verifica su contraseña.
+//    - Devuelve:
+//        true                -> la sesión se inició correctamente
+//        'contrasena-incorrecta' -> el usuario existe pero la clave es otra
+//        'no-existe'         -> no hay ninguna cuenta con ese nombre
 // ==========================================================================
 function iniciarSesion(nombre, contrasena) {
     // 5.1 .find() recorre el array buscando el nombre exacto.
@@ -105,15 +107,19 @@ function iniciarSesion(nombre, contrasena) {
         return u.nombreUsuario === nombre;
     });
 
-    if (encontrado) {
-        // 5.2 El usuario ya existe: se usa el que está en el array.
-        usuarioActual = encontrado;
-        guardarSesion();
-        return true;
+    if (!encontrado) {
+        // 5.2 No existe ninguna cuenta con ese nombre.
+        return 'no-existe';
     }
 
-    // 5.3 No existe: se guarda el usuario nuevo y entra automáticamente.
-    guardarUsuario(nombre, contrasena);
+    // 5.3 Si la contraseña no coincide, se rechaza el inicio de sesión.
+    if (encontrado.contrasena !== contrasena) {
+        return 'contrasena-incorrecta';
+    }
+
+    // 5.4 El usuario y la contraseña son correctos: se inicia la sesión.
+    usuarioActual = encontrado;
+    guardarSesion();
     return true;
 }
 
@@ -176,7 +182,7 @@ function actualizarEncabezados() {
 
 // ==========================================================================
 // 9. MANEJADOR DEL FORMULARIO DE LOGIN (index.html)
-//    - Lee los datos escritos, los guarda en el array y redirige al menú.
+//    - Lee los datos escritos y redirige al menú si son correctos.
 //    - return false evita que el formulario recargue la página.
 // ==========================================================================
 function manejarLogin(event) {
@@ -197,12 +203,109 @@ function manejarLogin(event) {
         return false;
     }
 
-    // 9.5 Se guarda el usuario en el array y se inicia sesión.
-    iniciarSesion(nombre, contrasena);
+    // 9.5 Se intenta iniciar sesión y se revisa el resultado.
+    const resultado = iniciarSesion(nombre, contrasena);
 
-    // 9.6 Se redirige a la vista del menú (encabezado mostrará el nombre).
+    if (resultado === true) {
+        // 9.6 Credenciales correctas: se redirige a la vista del menú.
+        window.location.href = '/html/menu.html';
+        return false;
+    }
+
+    if (resultado === 'no-existe') {
+        // 9.7 No hay cuenta con ese nombre: se ofrece crear una nueva.
+        mostrarFormulario('registro');
+        const registroMensaje = document.getElementById('registroMensaje');
+        if (registroMensaje) {
+            registroMensaje.textContent = '✖ No existe una cuenta con ese usuario. Crea una nueva.';
+            registroMensaje.className = 'login-message error';
+        }
+        return false;
+    }
+
+    // 9.8 La contraseña no coincide.
+    mensaje.textContent = '✖ Contraseña incorrecta. Inténtalo de nuevo.';
+    mensaje.className = 'login-message error';
+    return false;
+}
+
+// ==========================================================================
+// 9.5 MANEJADOR DEL FORMULARIO DE REGISTRO (index.html)
+//    - Crea una cuenta nueva, inicia sesión automáticamente y entra al menú.
+// ==========================================================================
+function manejarRegistro(event) {
+    // 9.5.1 Se evita el envío normal del formulario.
+    event.preventDefault();
+
+    // 9.5.2 Se leen los datos que escribió el usuario.
+    const nombre = document.getElementById('regUsuario').value.trim();
+    const contrasena = document.getElementById('regContrasena').value;
+    const repetirContrasena = document.getElementById('regRepetirContrasena').value;
+
+    // 9.5.3 Mensaje donde se muestran los errores.
+    const mensaje = document.getElementById('registroMensaje');
+
+    // 9.5.4 Todos los campos deben estar llenos.
+    if (!nombre || !contrasena || !repetirContrasena) {
+        mensaje.textContent = '✖ Completa todos los campos.';
+        mensaje.className = 'login-message error';
+        return false;
+    }
+
+    // 9.5.5 Las contraseñas deben coincidir.
+    if (contrasena !== repetirContrasena) {
+        mensaje.textContent = '✖ Las contraseñas no coinciden.';
+        mensaje.className = 'login-message error';
+        return false;
+    }
+
+    // 9.5.6 No se puede crear un usuario que ya existe.
+    const yaExiste = usuarios.some(function (u) {
+        return u.nombreUsuario === nombre;
+    });
+    if (yaExiste) {
+        mostrarFormulario('login');
+        const loginMensaje = document.getElementById('loginMensaje');
+        if (loginMensaje) {
+            loginMensaje.textContent = '✖ Ese usuario ya existe. Entra con tu contraseña.';
+            loginMensaje.className = 'login-message error';
+        }
+        return false;
+    }
+
+    // 9.5.7 Se crea la cuenta y se inicia sesión automáticamente.
+    guardarUsuario(nombre, contrasena);
+
+    // 9.5.8 Se entra directamente a la vista del menú.
     window.location.href = '/html/menu.html';
     return false;
+}
+
+// ==========================================================================
+// 9.6 FUNCIÓN PARA ALTERNAR ENTRE MIEMBRO "INICIAR SESIÓN" Y "CREAR CUENTA"
+//    - Recibe 'login' o 'registro' y muestra/oculta los formularios y las
+//      pestañas correspondientes.
+// ==========================================================================
+function mostrarFormulario(tipo) {
+    const loginTarjeta = document.getElementById('loginForm');
+    const registroTarjeta = document.getElementById('registroForm');
+    const tabLogin = document.getElementById('tabLogin');
+    const tabRegistro = document.getElementById('tabRegistro');
+
+    const esLogin = tipo === 'login';
+
+    if (loginTarjeta) loginTarjeta.style.display = esLogin ? 'flex' : 'none';
+    if (registroTarjeta) registroTarjeta.style.display = esLogin ? 'none' : 'flex';
+
+    // Se resaltan la pestaña activa y se atenúa la otra.
+    if (tabLogin) tabLogin.classList.toggle('active', esLogin);
+    if (tabRegistro) tabRegistro.classList.toggle('active', !esLogin);
+
+    // Se limpian los mensajes de error al cambiar de formulario.
+    const loginMensaje = document.getElementById('loginMensaje');
+    const registroMensaje = document.getElementById('registroMensaje');
+    if (loginMensaje) loginMensaje.textContent = '';
+    if (registroMensaje) registroMensaje.textContent = '';
 }
 
 // ==========================================================================
@@ -256,4 +359,35 @@ document.addEventListener('DOMContentLoaded', function () {
             boton.setAttribute('aria-label', esVisible ? 'Mostrar contraseña' : 'Ocultar contraseña');
         });
     });
+
+    // 10.5 Pestañas "Iniciar sesión" / "Crear cuenta" (index.html).
+    const tabLogin = document.getElementById('tabLogin');
+    const tabRegistro = document.getElementById('tabRegistro');
+
+    if (tabLogin) {
+        tabLogin.addEventListener('click', function () {
+            mostrarFormulario('login');
+        });
+    }
+    if (tabRegistro) {
+        tabRegistro.addEventListener('click', function () {
+            mostrarFormulario('registro');
+        });
+    }
+
+    // 10.6 Enlaces rápidos para cambiar de formulario.
+    const enlaceRegistrate = document.getElementById('linkRegistrarse');
+    if (enlaceRegistrate) {
+        enlaceRegistrate.addEventListener('click', function (e) {
+            e.preventDefault();
+            mostrarFormulario('registro');
+        });
+    }
+    const enlaceIniciaSesion = document.getElementById('linkIniciarSesion');
+    if (enlaceIniciaSesion) {
+        enlaceIniciaSesion.addEventListener('click', function (e) {
+            e.preventDefault();
+            mostrarFormulario('login');
+        });
+    }
 });

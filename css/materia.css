@@ -311,7 +311,27 @@ main {
 
 .color-circle.active {
     border: 3px solid #ff007f;
-    background-color: white !important;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #ff007f;
+    transform: scale(1.15);
+}
+
+/* Opción "sin margen": círculo blanco con una línea diagonal roja */
+.color-circle--none {
+    background-color: #ffffff;
+    border: 1px dashed #9ca3af;
+    position: relative;
+}
+
+.color-circle--none::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2px;
+    height: 115%;
+    background-color: #dc2626;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border-radius: 2px;
 }
 
 .preview-container label {
@@ -353,6 +373,17 @@ main {
     padding: 12px;
     color: #ffffff;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent 70%);
+}
+
+/* Icono del color/logo elegido en la vista previa */
+.preview-icon {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 3;
+    color: #ffffff;
+    font-size: 1.2rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 .preview-materia {
