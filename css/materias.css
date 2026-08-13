@@ -338,6 +338,13 @@ body {
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
 }
 
+/* El texto del nombre no debe meterse debajo del botón de eliminar materia */
+.banner-materia .banner-text {
+  min-width: 0;
+  flex: 1;
+  padding-right: 48px;
+}
+
 /* Botón para eliminar la materia creada desde su banner */
 .banner-delete-btn {
   position: absolute;

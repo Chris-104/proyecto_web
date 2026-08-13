@@ -351,11 +351,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 4.4 Logo elegido por el usuario: se coloca en la esquina
                 // superior izquierda de la tarjeta (si dejó uno seleccionado).
+                // El nombre se corre a la derecha para que no choque con el logo.
                 if (m.icono) {
                     const icono = document.createElement('i');
                     icono.className = m.icono;
                     icono.classList.add('card-new-icon');
                     card.appendChild(icono);
+                    content.style.paddingLeft = '38px';
                 }
 
                 // 4.5 Color elegido por el usuario: se aplica como un pequeño

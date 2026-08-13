@@ -460,6 +460,7 @@ body.sidebar-open .footer {
   flex-direction: column;
   gap: 2px;
   margin-top: auto;
+  padding-right: 42px; /* deja espacio para el botón de eliminar (esquina superior derecha) */
 }
 
 .card-new-teacher {
