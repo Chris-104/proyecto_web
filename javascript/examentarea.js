@@ -91,10 +91,34 @@ document.addEventListener('DOMContentLoaded', () => {
 // --------------------------------------------------------------------------
 function borrarTareaDesdeItem(taskItem) {
   const tasks = getTasks();
-  const lista = taskItem.parentElement;
-  const items = Array.from(lista.querySelectorAll('.task-item'));
-  const indice = items.indexOf(taskItem);
-  if (indice < 0) return;
+  const id = taskItem.dataset ? taskItem.dataset.taskId : '';
+  const clave = taskItem.dataset ? taskItem.dataset.taskKey : '';
+
+  let indice = -1;
+
+  if (id) {
+    indice = tasks.findIndex(function (t) { return t.id === id; });
+  } else if (clave) {
+    const partes = clave.split('||');
+    indice = tasks.findIndex(function (t) {
+      return t.name === partes[0]
+        && (t.materia || '') === partes[1]
+        && (t.dueDate || '') === partes[2]
+        && (t.desc || '') === partes[3];
+    });
+  }
+
+  // Fallback para tareas viejas: se busca por posición dentro de la pila
+  // de tareas de la página (funciona en la vista de la materia, sin filtros).
+  if (indice < 0) {
+    const lista = taskItem.parentElement;
+    if (lista) {
+      const items = Array.from(lista.querySelectorAll('.task-item'));
+      indice = items.indexOf(taskItem);
+    }
+  }
+
+  if (indice < 0 || indice >= tasks.length) return;
 
   tasks.splice(indice, 1);
   localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks));

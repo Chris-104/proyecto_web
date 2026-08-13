@@ -150,6 +150,11 @@ body.sidebar-open {
   cursor: pointer;
 }
 
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+}
+
 .sidebar-nav ul {
   list-style: none;
   padding: 15px 0;
@@ -866,6 +871,66 @@ body.sidebar-open .footer {
 .delete-btn:hover {
   background-color: #fee2e2;
   color: #dc2626;
+}
+
+/* Botón para marcar/desmarcar una tarea como completada */
+.task-check-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #cbd5e1;
+  cursor: pointer;
+  padding: 2px;
+  margin-left: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.task-check-btn:hover {
+  color: #22c55e;
+  transform: scale(1.15);
+}
+
+.task-check-btn .fa-circle-check {
+  color: #22c55e;
+}
+
+/* Tarea marcada como completada: se ve desmarcada en verde */
+.task-item.task-completed {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.task-item.task-completed .task-info h4 {
+  text-decoration: line-through;
+  color: #16a34a;
+}
+
+.task-item.task-completed .task-info p {
+  color: #86efac;
+}
+
+.task-item.task-completed .task-date strong {
+  color: #16a34a;
+}
+
+/* Rótulos de sección dentro del modal de tareas (Pendientes / Completadas) */
+.task-section-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-gray);
+  margin: 14px 0 6px;
+}
+
+.task-section-title:first-child {
+  margin-top: 0;
 }
 
 /* Mensaje cuando no hay tareas ni exámenes registrados */

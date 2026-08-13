@@ -190,6 +190,11 @@ body {
     line-height: 1;
 }
 
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+}
+
 .sidebar-nav ul {
     list-style: none;
 }
@@ -542,6 +547,66 @@ body {
   background-color: #dc2626;
   color: #ffffff;
   transform: scale(1.1);
+}
+
+/* Botón para marcar/desmarcar una tarea como completada en las tarjetas */
+.card-done-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.card-done-btn:hover {
+  background-color: #22c55e;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+/* Tarea marcada como completada */
+.card.task-completed {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.card.task-completed .card-icon-file {
+  color: #16a34a;
+}
+
+.card.task-completed .card-info h3 {
+  text-decoration: line-through;
+  color: #16a34a;
+}
+
+.card.task-completed .card-date {
+  color: #16a34a;
+}
+
+/* Rótulo que separa las tareas pendientes de las completadas */
+.card-list--separator {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #22c55e;
+  margin: 10px 0 2px;
+  padding-top: 12px;
+  border-top: 1px dashed #d1d5db;
+}
+
+.card-list--separator:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
 
 /* ==========================================================================

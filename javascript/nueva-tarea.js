@@ -24,6 +24,43 @@ function getStatusClass(priority) {
     return 'red';
 }
 
+// Ordena una lista de tareas por fecha de entrega (la más próxima primero).
+function compararTareas(tareaA, tareaB) {
+    const fechaA = tareaA.dueDate || '9999-12-31';
+    const fechaB = tareaB.dueDate || '9999-12-31';
+    return fechaA.localeCompare(fechaB);
+}
+
+// Busca el índice de una tarea en el array de tareas usando su id; si la
+// tarea es vieja (guardada sin id) la busca por sus datos.
+function obtenerIndiceTarea(tasks, tarea) {
+    if (tarea.id) {
+        const porId = tasks.findIndex(function (t) { return t.id === tarea.id; });
+        if (porId >= 0) return porId;
+    }
+    return tasks.findIndex(function (t) {
+        return t.name === tarea.name
+            && t.materia === tarea.materia
+            && t.dueDate === tarea.dueDate
+            && (t.desc || '') === (tarea.desc || '');
+    });
+}
+
+// Marca/desmarca una tarea como completada y la guarda en localStorage.
+function toggleTareaCompletada(tarea) {
+    const tasks = getTasks();
+    const indice = obtenerIndiceTarea(tasks, tarea);
+    if (indice < 0) return;
+
+    // Si la tarea se guardó sin id, se le agrega uno al marcarla por primera vez.
+    if (!tasks[indice].id) {
+        tasks[indice].id = 'tarea-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+    }
+
+    tasks[indice].done = !tasks[indice].done;
+    localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks));
+}
+
 // ==========================================================================
 // SELECTOR DE MATERIA (nueva-tarea.html)
 // ==========================================================================
@@ -101,7 +138,15 @@ function handleTaskForm() {
         }
 
         const tasks = getTasks();
-        tasks.push({ name, desc, dueDate, priority, materia });
+        tasks.push({
+            id: 'tarea-' + Date.now() + '-' + Math.floor(Math.random() * 10000),
+            name,
+            desc,
+            dueDate,
+            priority,
+            materia,
+            done: false
+        });
         localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks));
 
         if (taskForm.reset) taskForm.reset();
@@ -115,14 +160,21 @@ function handleTaskForm() {
 // ==========================================================================
 function crearCardTarea(task) {
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'card' + (task.done ? ' task-completed' : '');
+    // Se guarda la identificación de la tarea para poder borrarla o marcarla
+    // aunque la lista esté ordenada o separada en pendientes/completadas.
+    if (task.id) {
+        card.dataset.taskId = task.id;
+    } else {
+        card.dataset.taskKey = [task.name || '', task.materia || '', task.dueDate || '', task.desc || ''].join('||');
+    }
 
     const left = document.createElement('div');
     left.className = 'card-left';
 
     const icon = document.createElement('span');
     icon.className = 'card-icon-file';
-    icon.textContent = '📄';
+    icon.textContent = task.done ? '✅' : '📄';
 
     const info = document.createElement('div');
     info.className = 'card-info';
@@ -158,7 +210,17 @@ function crearCardTarea(task) {
     arrow.className = 'card-arrow';
     arrow.textContent = '>';
 
+    // Botón para marcar/desmarcar la tarea como completada.
+    const doneBtn = document.createElement('button');
+    doneBtn.type = 'button';
+    doneBtn.className = 'card-done-btn';
+    doneBtn.title = task.done ? 'Marcar como pendiente' : 'Marcar como completada';
+    doneBtn.innerHTML = task.done
+        ? '<i class="fa-solid fa-circle-check"></i>'
+        : '<i class="fa-regular fa-circle"></i>';
+
     right.appendChild(dateBox);
+    right.appendChild(doneBtn);
     right.appendChild(arrow);
 
     // Botón pequeño para eliminar la tarea desde la página de la materia.
@@ -175,6 +237,14 @@ function crearCardTarea(task) {
         borrarTareaDeTarjeta(card);
     });
 
+    doneBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleTareaCompletada(task);
+        renderTasksMateriaPage();
+        if (typeof updateMetrics === 'function') updateMetrics();
+    });
+
     card.appendChild(left);
     card.appendChild(right);
     return card;
@@ -182,24 +252,29 @@ function crearCardTarea(task) {
 
 // Borra una tarea desde su tarjeta en la página de la materia.
 function borrarTareaDeTarjeta(card) {
-    const panel = card.closest('.panel');
-    if (!panel) return;
-    const cardList = panel.querySelector('.card-list');
-    if (!cardList) return;
-
-    const cards = Array.from(cardList.querySelectorAll('.card'));
-    const indice = cards.indexOf(card);
-    if (indice < 0) return;
-
-    const tasks = getTasks();
-    const materia = getMateriaActual();
-    const deEstaMateria = tasks.filter((tarea) => tarea.materia === materia);
-    const objetivo = deEstaMateria[indice];
-    if (!objetivo) return;
-
     if (!confirm('¿Eliminar esta tarea?')) return;
 
-    localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks.filter((tarea) => tarea !== objetivo)));
+    const tasks = getTasks();
+    const id = card.dataset ? card.dataset.taskId : '';
+    const clave = card.dataset ? card.dataset.taskKey : '';
+
+    let indice = -1;
+    if (id) {
+        indice = tasks.findIndex((tarea) => tarea.id === id);
+    } else if (clave) {
+        const partes = clave.split('||');
+        indice = tasks.findIndex((tarea) =>
+            tarea.name === partes[0]
+            && (tarea.materia || '') === partes[1]
+            && (tarea.dueDate || '') === partes[2]
+            && (tarea.desc || '') === partes[3]
+        );
+    }
+
+    if (indice < 0) return;
+
+    tasks.splice(indice, 1);
+    localStorage.setItem(TASK_STORAGE_KEY, JSON.stringify(tasks));
     renderTasksMateriaPage();
     if (typeof updateMetrics === 'function') updateMetrics();
 }
@@ -225,14 +300,26 @@ function renderTasksMateriaPage() {
             addBtn.href = 'nueva-tarea.html?materia=' + encodeURIComponent(materia);
         }
 
-        cardList.querySelectorAll('.card').forEach((card) => card.remove());
+        cardList.querySelectorAll('.card, .card-list--separator').forEach((card) => card.remove());
 
         const tareas = getTasks().filter((tarea) => tarea.materia === materia);
+        const pendientes = tareas.filter((tarea) => !tarea.done).sort(compararTareas);
+        const completadas = tareas.filter((tarea) => tarea.done);
 
-        tareas.forEach((tarea) => cardList.appendChild(crearCardTarea(tarea)));
+        // Pendientes primero (ordenadas por fecha) y después las completadas,
+        // separadas por un rótulo para que la lista se vea ordenada.
+        pendientes.forEach((tarea) => cardList.appendChild(crearCardTarea(tarea)));
+
+        if (completadas.length > 0) {
+            const separador = document.createElement('p');
+            separador.className = 'card-list--separator';
+            separador.textContent = '✅ Completadas (' + completadas.length + ')';
+            cardList.appendChild(separador);
+            completadas.forEach((tarea) => cardList.appendChild(crearCardTarea(tarea)));
+        }
 
         if (badge) {
-            badge.textContent = tareas.length + (tareas.length === 1 ? ' pendiente' : ' pendientes');
+            badge.textContent = pendientes.length + (pendientes.length === 1 ? ' pendiente' : ' pendientes');
         }
     });
 }
@@ -242,10 +329,34 @@ function renderTasksMateriaPage() {
 // ==========================================================================
 function crearTaskItem(task) {
     const item = document.createElement('div');
-    item.className = 'task-item';
+    item.className = 'task-item' + (task.done ? ' task-completed' : '');
+    // Se guarda la identificación de la tarea en el elemento para poder
+    // eliminarla o marcarla aunque la lista esté ordenada o filtrada.
+    if (task.id) {
+        item.dataset.taskId = task.id;
+    } else {
+        item.dataset.taskKey = [task.name || '', task.materia || '', task.dueDate || '', task.desc || ''].join('||');
+    }
 
     const status = document.createElement('span');
-    status.className = 'status-indicator ' + getStatusClass(task.priority);
+    status.className = 'status-indicator ' + (task.done ? 'green' : getStatusClass(task.priority));
+
+    const doneBtn = document.createElement('button');
+    doneBtn.type = 'button';
+    doneBtn.className = 'task-check-btn';
+    doneBtn.title = task.done ? 'Marcar como pendiente' : 'Marcar como completada';
+    doneBtn.innerHTML = task.done
+        ? '<i class="fa-solid fa-circle-check"></i>'
+        : '<i class="fa-regular fa-circle"></i>';
+
+    doneBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleTareaCompletada(task);
+        renderTasksInicio();
+        renderModalTareas();
+        if (typeof updateMetrics === 'function') updateMetrics();
+    });
 
     const info = document.createElement('div');
     info.className = 'task-info';
@@ -279,6 +390,7 @@ function crearTaskItem(task) {
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
 
     item.appendChild(status);
+    item.appendChild(doneBtn);
     item.appendChild(info);
     item.appendChild(dateBox);
     item.appendChild(deleteBtn);
@@ -291,7 +403,11 @@ function renderListaTareas(list, tasks) {
 
     list.querySelectorAll('.task-item, .empty-state').forEach((el) => el.remove());
 
-    if (tasks.length === 0) {
+    // En la caja de pendientes solo se muestran las tareas NO completadas,
+    // ordenadas por fecha para que se vea lo más urgente primero.
+    const pendientes = tasks.filter((tarea) => !tarea.done).sort(compararTareas);
+
+    if (pendientes.length === 0) {
         const empty = document.createElement('p');
         empty.className = 'empty-state';
         empty.textContent = 'No hay tareas pendientes';
@@ -299,7 +415,7 @@ function renderListaTareas(list, tasks) {
         return;
     }
 
-    tasks.forEach((task) => list.appendChild(crearTaskItem(task)));
+    pendientes.forEach((task) => list.appendChild(crearTaskItem(task)));
 }
 
 function renderTasksInicio() {
@@ -324,7 +440,51 @@ function renderTasksInicio() {
 function renderModalTareas() {
     const list = document.querySelector('#modalTareas .modal-body .tasks-list');
     if (!list) return;
-    renderListaTareas(list, getTasks());
+
+    list.querySelectorAll('.task-item, .empty-state, .task-section-title').forEach((el) => el.remove());
+
+    const tasks = getTasks();
+
+    if (tasks.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty-state';
+        empty.textContent = 'No hay tareas guardadas';
+        list.appendChild(empty);
+        return;
+    }
+
+    const pendientes = tasks.filter((tarea) => !tarea.done).sort(compararTareas);
+    const completadas = tasks.filter((tarea) => tarea.done);
+
+    // Sección "Pendientes": las que faltan, ordenadas por fecha.
+    const tituloPendientes = document.createElement('p');
+    tituloPendientes.className = 'task-section-title';
+    tituloPendientes.textContent = 'Pendientes (' + pendientes.length + ')';
+    list.appendChild(tituloPendientes);
+
+    if (pendientes.length === 0) {
+        const sinPendientes = document.createElement('p');
+        sinPendientes.className = 'empty-state';
+        sinPendientes.textContent = 'No quedan tareas pendientes';
+        list.appendChild(sinPendientes);
+    } else {
+        pendientes.forEach((task) => list.appendChild(crearTaskItem(task)));
+    }
+
+    // Sección "Completadas": las que ya se marcaron, al final.
+    const tituloCompletadas = document.createElement('p');
+    tituloCompletadas.className = 'task-section-title';
+    tituloCompletadas.textContent = 'Completadas (' + completadas.length + ')';
+    list.appendChild(tituloCompletadas);
+
+    if (completadas.length === 0) {
+        const sinCompletadas = document.createElement('p');
+        sinCompletadas.className = 'empty-state';
+        sinCompletadas.textContent = 'Aún no hay tareas completadas';
+        list.appendChild(sinCompletadas);
+    } else {
+        completadas.forEach((task) => list.appendChild(crearTaskItem(task)));
+    }
 }
 
 // ==========================================================================
@@ -339,14 +499,8 @@ function updateMetrics() {
     // Materias: cuenta las tarjetas de curso reales en la grilla (sin la de agregar)
     const courseCount = document.querySelectorAll('.courses-grid a.course-card').length;
 
-    // Tareas pendientes: las que tienen fecha hoy/futura o sin fecha
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const pending = tasks.filter((task) => {
-        if (!task.dueDate) return true;
-        const d = new Date(task.dueDate + 'T00:00:00');
-        return d >= today;
-    }).length;
+    // Tareas pendientes: las que aún no se marcaron como completadas.
+    const pending = tasks.filter((task) => !task.done).length;
 
     metricCards.forEach((card) => {
         const label = card.querySelector('p');

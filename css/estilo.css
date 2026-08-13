@@ -187,6 +187,11 @@ body {
     line-height: 1;
 }
 
+.sidebar-nav {
+    flex: 1;
+    overflow-y: auto;
+}
+
 .sidebar-nav ul {
     list-style: none;
 }

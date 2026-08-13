@@ -68,6 +68,94 @@ function getMateriaActual() {
 }
 
 // ==========================================================================
+// MOSTRAR EN EL MENÚ LATERAL LAS MATERIAS CREADAS POR EL USUARIO
+//    - El menú desplegable (.sidebar-nav) está escrito a mano en el HTML con
+//      las 5 materias por defecto, así que las materias nuevas agregadas por
+//      el usuario no aparecían.
+//    - Esta función lee las materias guardadas en localStorage y las agrega al
+//      final de la lista del menú, en los mismos lugares donde está el enlace
+//      "Inicio".
+// ==========================================================================
+// Lee los detalles (docente, descripción, icono y color) de las materias
+// creadas, guardados en la clave 'focusClassMateriasDetalles' por nueva-materia.js.
+function getDetallesMaterias() {
+    try {
+        const data = JSON.parse(localStorage.getItem('focusClassMateriasDetalles') || '[]');
+        return Array.isArray(data) ? data : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+// Devuelve el detalle (icono/color) de una materia según su nombre exacto.
+function getDetalleMateria(nombre) {
+    return getDetallesMaterias().find(function (detalle) {
+        return detalle && detalle.materia === nombre;
+    }) || null;
+}
+
+function renderMateriasEnSidebar() {
+    const listaMenu = document.querySelector('.sidebar-nav ul');
+    if (!listaMenu) return;
+
+    // Se eliminan los enlaces que ya se agregaron antes para no duplicarlos
+    // al recargar la página o al volver con el botón atrás del navegador.
+    listaMenu.querySelectorAll('li.sidebar-materia-usuario').forEach(function (item) {
+        item.remove();
+    });
+
+    // Solo las materias creadas por el usuario (las 5 por defecto ya están
+    // escritas a mano en el HTML de cada página). No hay límite de materias:
+    // se procesan todas las que estén guardadas.
+    const nombres = getMateriasGuardadas();
+    const enCarpetaHtml = /\/html\//.test(window.location.pathname);
+
+    nombres.forEach(function (nombre) {
+        if (!nombre) return;
+
+        // Los nombres se comparan sin distinguir mayúsculas/minúsculas para
+        // no repetir una materia que ya esté en el menú (ej. "Matemáticas").
+        const yaExisteDireccionLink = Array.prototype.some.call(
+            listaMenu.querySelectorAll('a'),
+            function (enlace) {
+                return enlace.textContent.trim().toLowerCase() === nombre.trim().toLowerCase();
+            }
+        );
+        if (yaExisteDireccionLink) return;
+
+        const item = document.createElement('li');
+        item.className = 'sidebar-materia-usuario';
+
+        const enlace = document.createElement('a');
+        // El enlace lleva a la vista de la materia creada pasando su nombre.
+        const baseRuta = enCarpetaHtml ? 'materia-creada.html' : 'html/materia-creada.html';
+        enlace.href = baseRuta + '?nombre=' + encodeURIComponent(nombre);
+
+        // Se usa el icono que el usuario eligió al crear la materia (el que
+        // guardó en los detalles); si no eligió ninguno, se muestra un icono
+        // genérico de ejemplo.
+        const icono = document.createElement('i');
+        const detalle = getDetalleMateria(nombre);
+        icono.className = detalle && detalle.icono ? detalle.icono : 'fa-solid fa-graduation-cap';
+
+        const texto = document.createElement('span');
+        texto.textContent = nombre;
+
+        enlace.appendChild(icono);
+        enlace.appendChild(texto);
+        item.appendChild(enlace);
+
+        // Si el usuario eligió un color, se pinta una pequeña franja izquierda
+        // para que cada materia también se reconozca por su color.
+        if (detalle && detalle.color) {
+            enlace.style.borderLeft = '4px solid ' + detalle.color;
+        }
+
+        listaMenu.appendChild(item);
+    });
+}
+
+// ==========================================================================
 // GUARDAR NUEVA MATERIA (materia.html)
 // ==========================================================================
 function setupMateriaForm() {
@@ -98,4 +186,10 @@ function setupMateriaForm() {
 
 document.addEventListener('DOMContentLoaded', () => {
     setupMateriaForm();
+    renderMateriasEnSidebar();
+
+    // "pageshow" también se dispara cuando el navegador restaura la página con
+    // el botón atrás/adelante (sin recargar). Así el menú se vuelve a renderizar
+    // y muestra cualquier materia nueva guardada, aunque no se recargue.
+    window.addEventListener('pageshow', renderMateriasEnSidebar);
 });

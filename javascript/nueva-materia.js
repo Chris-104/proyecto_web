@@ -484,5 +484,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Se actualizan los contadores de la página (si existen).
         if (typeof updateMetrics === 'function') updateMetrics();
+
+        // Se vuelve a dibujar el menú desplegable para que la materia
+        // eliminada desaparezca también de ahí sin recargar la página.
+        if (typeof renderMateriasEnSidebar === 'function') renderMateriasEnSidebar();
     }
 });
